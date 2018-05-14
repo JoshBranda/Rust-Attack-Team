@@ -1,0 +1,7 @@
+[package]
+name = "crabber"
+version = "0.1.0"
+authors = ["jarfgit <julie.a.rutherford@gmail.com>"]
+
+[dependencies]
+ggez = "0.4"
