@@ -3,10 +3,10 @@ This is a game.... or is it?
 
 In either case, no crabs were harmed in the making of this application.
 
-##Installation
+## Installation
 `TBD`
 
-###MAC
+### MAC
 Install SDL2 with the brew package manager like so:
 
 `brew install sdl2`
