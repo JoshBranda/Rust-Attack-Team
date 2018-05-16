@@ -12,6 +12,8 @@ use ggez::graphics::{self, DrawMode, Point2};
 use ggez::conf;
 use ggez::event;
 
+mod traffic;
+
 // Screen dimensions. Currently portrait mode.
 const WIN_W: u32 = 400;
 const WIN_H: u32 = 700;
