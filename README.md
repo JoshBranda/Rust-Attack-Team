@@ -1,4 +1,6 @@
 # Rust-Attack-Team
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 This is a game.... or is it? 
 
 In either case, no crabs were harmed in the making of this application.
