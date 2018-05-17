@@ -68,7 +68,8 @@ impl Car {
     pub fn construct(win_h: u32) -> Car {
         let lane = 1;
         let speed = 1.2;
-        let w = SQUARE_SIZE * 1.5 as f32;
+        let w = SQUARE_SIZE * 2 as f32;
+        let h = SQUARE_SIZE * 1.5 as f32;
         let x = 0.0 - w - 10.0;
         let y = win_h as f32 - (lane as f32 + 4.0) * SQUARE_SIZE;
         Car {
@@ -76,7 +77,7 @@ impl Car {
                 x,
                 y,
                 w,
-                SQUARE_SIZE,
+                h,
                 //blue
                 graphics::Color::new(0.0, 0.0, 1.0, 1.0),
             ),
