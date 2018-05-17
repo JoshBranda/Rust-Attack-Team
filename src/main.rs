@@ -1,6 +1,6 @@
 /*
 Copyright (c) 2018 Matt Carnovale, Julie Rutherford-Fields, Joshua Sander
-This work is available under the "3-clause ('new') BSD License”.
+This work is available under the "MIT License”.
 Please see the file LICENSE in this distribution
 for license terms.
 */
