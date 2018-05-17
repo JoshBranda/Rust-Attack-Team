@@ -1,3 +1,9 @@
+/*
+Copyright (c) 2018 Matt Carnovale, Julie Rutherford-Fields, Joshua Sander
+This work is available under the "MIT License”.
+Please see the file LICENSE in this distribution
+for license terms.
+*/
 extern crate ggez;
 
 use sprites::Square;
