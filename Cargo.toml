@@ -5,3 +5,4 @@ authors = ["jarfgit <julie.a.rutherford@gmail.com>"]
 
 [dependencies]
 ggez = "0.4"
+rand = "0.4"
