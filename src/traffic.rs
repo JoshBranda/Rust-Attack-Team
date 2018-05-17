@@ -10,7 +10,7 @@ use ggez::graphics;
 
 
 //Square size of graphic can be adjusted here
-const SQUARE_SIZE: f32 = 20.0;
+pub const SQUARE_SIZE: f32 = 20.0;
 
 //The vehicles will be a variety of rectangles until we find some sprites
 struct Vehicle {
@@ -65,12 +65,12 @@ pub struct Car {
 
 impl Car {
 
-    pub fn construct(win_h: u32) -> Car {
+    pub fn construct(win_h: u32, delay: f32) -> Car {
         let lane = 1;
-        let speed = 1.2;
+        let speed = 1.0;
         let w = SQUARE_SIZE * 2 as f32;
         let h = SQUARE_SIZE * 1.5 as f32;
-        let x = 0.0 - w - 10.0;
+        let x = 0.0 - w - 10.0 - delay;
         let y = win_h as f32 - (lane as f32 + 4.0) * SQUARE_SIZE;
         Car {
             form: Vehicle::construct(
@@ -92,7 +92,7 @@ impl Car {
     }
 
     pub fn update(&mut self) {
-        self.form.x = self.form.x % 400.0 + self.speed;
+        self.form.x = self.form.x % 500.0 + self.speed;
     }
 }
 
