@@ -6,6 +6,7 @@ for license terms.
 */
 
 extern crate ggez;
+extern crate rand;
 
 pub mod sprites;
 pub mod characters;
@@ -27,14 +28,15 @@ const WIN_H: u32 = 700;
 // Contains properties to track during gameplay
 // In this example it is only tracking the x coord of the orb
 struct MainState {
-    pos_x: f32,
     player: Crab,
+    cars: Vec<traffic::Car>
 }
 
 impl MainState {
     fn new(_ctx: &mut Context) -> GameResult<MainState> {
-        let s = MainState {
-            pos_x: 0.0,
+        let cars = vec![];
+        let s = MainState { 
+            cars: cars,
             player: Crab::new(_ctx, WIN_W, WIN_H)
         };
         Ok(s)
@@ -43,19 +45,26 @@ impl MainState {
 
 impl event::EventHandler for MainState {
     fn update(&mut self, _ctx: &mut Context) -> GameResult<()> {
-        self.pos_x = self.pos_x % 400.0 + 1.0; // Increments x value
+        // Create new cars
+        if (self.cars.len() as u32) < 1 {
+            self.cars.push(traffic::Car::construct(WIN_H));
+        }
+
+        //Update cars
+        for car in &mut self.cars {
+            car.update();
+        }
+
         Ok(())
     }
 
     fn draw(&mut self, ctx: &mut Context) -> GameResult<()> {
         graphics::clear(ctx);
-        graphics::circle(ctx,
-                         DrawMode::Fill,
-                         Point2::new(self.pos_x, 350.0),
-                         10.0,
-                         2.0)?;
 
-        self.player.draw(ctx)?;
+        //Draw our cars
+        for car in &mut self.cars {
+            car.draw(ctx)?;
+        }
 
         graphics::present(ctx);
         Ok(())
