@@ -72,6 +72,8 @@ impl event::EventHandler for MainState {
             car.draw(ctx)?;
         }
 
+        self.player.draw(ctx)?;
+
         graphics::present(ctx);
         Ok(())
     }

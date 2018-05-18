@@ -39,6 +39,8 @@ impl Vehicle {
     //Draws the given object to the screen
     fn draw(&mut self, ctx: &mut Context, ) -> GameResult<()> {
 
+        //Sets the color for the object
+        let is_ok = graphics::set_color(ctx, self.color);
         /* A simple 2D rectangle: the origin of the rectangle is at the top-left, 
          * with x increasing to the right and y increasing down.
          */    
@@ -46,8 +48,6 @@ impl Vehicle {
         //Draws a rectangle. DrawMode specifies whether a shape should be drawn filled or as an outline.
         //TODO: add try/catch block
         let _is_ok = graphics::rectangle(ctx, graphics::DrawMode::Fill, rectangle);
-        //Sets the foreground color
-        let is_ok = graphics::set_color(ctx, self.color);
 
         //This is the Gameresult type returned if there was not an error
         is_ok
