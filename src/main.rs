@@ -29,14 +29,14 @@ const WIN_H: u32 = 700;
 // In this example it is only tracking the x coord of the orb
 struct MainState {
     player: Crab,
-    cars: Vec<traffic::Car>
+    // cars: Vec<traffic::Car>
 }
 
 impl MainState {
     fn new(_ctx: &mut Context) -> GameResult<MainState> {
-        let cars = vec![];
+        // let cars = vec![];
         let s = MainState { 
-            cars: cars,
+            // cars: cars,
             player: Crab::new(_ctx, WIN_W, WIN_H)
         };
         Ok(s)
@@ -46,20 +46,20 @@ impl MainState {
 impl event::EventHandler for MainState {
     fn update(&mut self, _ctx: &mut Context) -> GameResult<()> {
         // Create new cars
-        if (self.cars.len() as u32) < 4 {
-            let mut delay = 0.0;
-            if (self.cars.len() as u32) >= 1{
-                delay += traffic::SQUARE_SIZE * 6.3 * self.cars.len() as f32;
-                self.cars.push(traffic::Car::construct(WIN_H, delay));
-            } else {
-                self.cars.push(traffic::Car::construct(WIN_H, delay));
-            }
-        }
+        // if (self.cars.len() as u32) < 4 {
+        //     let mut delay = 0.0;
+        //     if (self.cars.len() as u32) >= 1{
+        //         delay += traffic::SQUARE_SIZE * 6.3 * self.cars.len() as f32;
+        //         self.cars.push(traffic::Car::construct(WIN_H, delay));
+        //     } else {
+        //         self.cars.push(traffic::Car::construct(WIN_H, delay));
+        //     }
+        // }
 
         //Update cars
-        for car in &mut self.cars {
-            car.update();
-        }
+        // for car in &mut self.cars {
+        //     car.update();
+        // }
 
         Ok(())
     }
@@ -68,9 +68,9 @@ impl event::EventHandler for MainState {
         graphics::clear(ctx);
 
         //Draw our cars
-        for car in &mut self.cars {
-            car.draw(ctx)?;
-        }
+        // for car in &mut self.cars {
+        //     car.draw(ctx)?;
+        // }
 
         self.player.draw(ctx)?;
 
