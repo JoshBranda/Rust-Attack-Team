@@ -60,8 +60,6 @@ impl Vehicle {
 pub struct Car {
     form: Vehicle,
     speed: f32
-    // lane: u32
-    //For Speed & Lane, I'm imagining a "Traffic" struct that assigns the speed and lane?       
 }
 
 impl Car {
@@ -97,8 +95,7 @@ impl Car {
 }
 
 pub struct Lane {
-    y: f32,
-    v_type: u32,
+    v_type: u32,   //This will allow us to choose different sprites for Cars or Trucks
     speed: f32,
     num_of_cars: u32,
     cars: Vec<Car>
@@ -106,39 +103,34 @@ pub struct Lane {
 
 impl Lane {
 
-    pub fn construct(&mut self, win_h: u32) -> Lane {
+    pub fn construct(win_h: u32) -> Lane {
+        let y = win_h as f32 - 5.0 * SQUARE_SIZE;  //Will change based on lane #
+        let num_of_cars= 4; //Should change based on speed / size
         Lane {
-            y: win_h as f32 - 5.0 * SQUARE_SIZE,  //Will change based on lane #
-            v_type: self.generate_vehicle_type(),
-            speed: self.generate_speed(),
-            num_of_cars: 4,                       //Should change based on speed / size
-            cars: self.create_cars()
+            v_type: Lane::generate_vehicle_type(),
+            speed: Lane::generate_speed(),
+            num_of_cars,                       
+            cars: Lane::create_cars(y, num_of_cars)
         }
     }
 
-    fn create_cars(&mut self) -> Vec<Car>{
+    fn create_cars(y: f32, num_of_cars: u32) -> Vec<Car>{
         let mut cars = vec![];
         let mut delay = 0.0;
-        while (cars.len() as u32) < self.num_of_cars {
-            cars.push(Car::construct(self.y, delay));
+        while (cars.len() as u32) < num_of_cars {
+            cars.push(Car::construct(y, delay));
             delay += SQUARE_SIZE * 6.3;     
-            // if (cars.len() as u32) >= 1{
-            //     delay += SQUARE_SIZE * 6.3;
-            //     cars.push(Car::construct(win_h, delay));
-            // } else {
-            //     cars.push(Car::construct(win_h, delay));
-            // }
         }      
         cars
     }
 
-    fn generate_vehicle_type(&mut self,) -> u32 {
+    fn generate_vehicle_type() -> u32 {
         let mut rng = thread_rng();
         
         rng.gen_range(1,4)
     }
 
-    fn generate_speed(&mut self,) -> f32 {
+    fn generate_speed() -> f32 {
         let mut rng = thread_rng();
         
         rng.gen_range(1.0f32, 4.0f32)

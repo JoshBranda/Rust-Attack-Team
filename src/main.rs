@@ -29,14 +29,14 @@ const WIN_H: u32 = 700;
 // In this example it is only tracking the x coord of the orb
 struct MainState {
     player: Crab,
-    // cars: Vec<traffic::Car>
+    lanes: Vec<traffic::Lane>
 }
 
 impl MainState {
     fn new(_ctx: &mut Context) -> GameResult<MainState> {
-        // let cars = vec![];
+        let lanes = vec![];
         let s = MainState { 
-            // cars: cars,
+            lanes: lanes,
             player: Crab::new(_ctx, WIN_W, WIN_H)
         };
         Ok(s)
@@ -45,21 +45,16 @@ impl MainState {
 
 impl event::EventHandler for MainState {
     fn update(&mut self, _ctx: &mut Context) -> GameResult<()> {
-        // Create new cars
-        // if (self.cars.len() as u32) < 4 {
-        //     let mut delay = 0.0;
-        //     if (self.cars.len() as u32) >= 1{
-        //         delay += traffic::SQUARE_SIZE * 6.3 * self.cars.len() as f32;
-        //         self.cars.push(traffic::Car::construct(WIN_H, delay));
-        //     } else {
-        //         self.cars.push(traffic::Car::construct(WIN_H, delay));
-        //     }
-        // }
 
-        //Update cars
-        // for car in &mut self.cars {
-        //     car.update();
-        // }
+        // Create new lanes
+        if (self.lanes.len() as u32) < 1 {
+            self.lanes.push(traffic::Lane::construct(WIN_H));      
+        }
+
+        //Update laness
+        for lane in &mut self.lanes {
+            lane.update_vehicles_in_lane();
+        }
 
         Ok(())
     }
@@ -67,10 +62,10 @@ impl event::EventHandler for MainState {
     fn draw(&mut self, ctx: &mut Context) -> GameResult<()> {
         graphics::clear(ctx);
 
-        //Draw our cars
-        // for car in &mut self.cars {
-        //     car.draw(ctx)?;
-        // }
+        //Draw our lanes
+        for lane in &mut self.lanes {
+            lane.draw_vehicles_in_lane(ctx)?;
+        }
 
         self.player.draw(ctx)?;
 
