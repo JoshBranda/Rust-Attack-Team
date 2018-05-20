@@ -13,7 +13,9 @@ pub mod constants;
 pub mod sprites;
 pub mod traffic;
 
-
+use constants::WIN_W;
+use constants::WIN_H
+use constants::SQUARE_SIZE;
 use characters::Crab;
 use sprites::Square;
 use ggez::event::{Keycode, Mod};
@@ -32,8 +34,8 @@ struct MainState {
 
 impl MainState {
     fn new(_ctx: &mut Context) -> GameResult<MainState> {
-        let w = constants::WIN_W;
-        let h = constants::WIN_H;
+        let w = WIN_W;
+        let h = WIN_H;
         let cars = vec![];
         let s = MainState { 
             cars: cars,
@@ -47,11 +49,11 @@ impl event::EventHandler for MainState {
     fn update(&mut self, _ctx: &mut Context) -> GameResult<()> {
         // Create new cars
         if (self.cars.len() as u32) < 4 {
-            let w = constants::WIN_W;
-            let h = constants::WIN_H;
+            let w = WIN_W;
+            let h = WIN_H;
             let mut delay = 0.0;
             if (self.cars.len() as u32) >= 1{
-                delay += constants::SQUARE_SIZE * 6.3 * self.cars.len() as f32;
+                delay += SQUARE_SIZE * 6.3 * self.cars.len() as f32;
                 self.cars.push(traffic::Car::construct(h, delay));
             } else {
                 self.cars.push(traffic::Car::construct(w, delay));
@@ -95,8 +97,8 @@ impl event::EventHandler for MainState {
 pub fn main() {
     let mut c = conf::Conf::new();
     c.window_setup.title 	= "C R A B B E R".to_string();
-	c.window_mode.width 	= constants::WIN_W;
-    c.window_mode.height 	= constants::WIN_H;
+	c.window_mode.width 	= WIN_W;
+    c.window_mode.height 	= WIN_H;
     let ctx 				= &mut Context::load_from_conf("super_simple", "ggez", c).unwrap();
     let state 				= &mut MainState::new(ctx).unwrap();
     event::run(ctx, state).unwrap();
