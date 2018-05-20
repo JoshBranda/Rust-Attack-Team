@@ -14,7 +14,7 @@ pub mod sprites;
 pub mod traffic;
 
 use constants::WIN_W;
-use constants::WIN_H
+use constants::WIN_H;
 use constants::SQUARE_SIZE;
 use characters::Crab;
 use sprites::Square;
