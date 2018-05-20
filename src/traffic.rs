@@ -66,8 +66,7 @@ pub struct Car {
 
 impl Car {
 
-    pub fn construct(y: f32, win_w: u32, delay: f32, ltr_direction: bool) -> Car {
-        let speed = 1.0;
+    pub fn construct(y: f32, win_w: u32, speed: f32, delay: f32, ltr_direction: bool) -> Car {
         let w = SQUARE_SIZE * 2 as f32;
         let h = SQUARE_SIZE * 1.5 as f32;
         let x = Car::assign_starting_x(ltr_direction, w, win_w, delay);
@@ -114,10 +113,10 @@ impl Car {
 
     fn update(&mut self) {
         if self.direction {
-            if self.form.x == 410.0 { self.form.x = 0.0 - self.form.w - 10.0}
+            if self.form.x >= 410.0 { self.form.x = 0.0 - self.form.w - 10.0}
             self.form.x = self.form.x + self.speed;
         } else{
-            if self.form.x == -self.form.w { self.form.x = 400.0 - 10.0}
+            if self.form.x <= -self.form.w { self.form.x = 400.0 - 10.0}
             self.form.x = self.form.x - self.speed;
         }
     }
@@ -125,8 +124,6 @@ impl Car {
 
 pub struct Lane {
     v_type: u32,   //This will allow us to choose different sprites for Cars or Trucks
-    speed: f32,
-    num_of_cars: u32,
     cars: Vec<Car>
 }
 
@@ -136,19 +133,18 @@ impl Lane {
         let y = win_h as f32 - y_modifier * SQUARE_SIZE;  //Will change based on lane #
         let num_of_cars= 4; //Should change based on speed / size
         let ltr_direction= Lane::generate_direction();
+        let speed= Lane::generate_speed();
         Lane {
-            v_type: Lane::generate_vehicle_type(),
-            speed: Lane::generate_speed(),
-            num_of_cars,                       
-            cars: Lane::create_cars(y, win_w, num_of_cars, ltr_direction)
+            v_type: Lane::generate_vehicle_type(),                     
+            cars: Lane::create_cars(y, win_w, num_of_cars, speed, ltr_direction)
         }
     }
 
-    fn create_cars(y: f32, win_w: u32, num_of_cars: u32, ltr_direction: bool) -> Vec<Car>{
+    fn create_cars(y: f32, win_w: u32, num_of_cars: u32, speed: f32, ltr_direction: bool) -> Vec<Car>{
         let mut cars = vec![];
         let mut delay = 0.0;
         while (cars.len() as u32) < num_of_cars {
-            cars.push(Car::construct(y, win_w, delay, ltr_direction));
+            cars.push(Car::construct(y, win_w, speed, delay, ltr_direction));
             delay += SQUARE_SIZE * 4.5;     
         }      
         cars
@@ -163,7 +159,7 @@ impl Lane {
     fn generate_speed() -> f32 {
         let mut rng = thread_rng();
         
-        rng.gen_range(1.0_f32, 4.0_f32)
+        rng.gen_range(0.5_f32, 1.5_f32)
     }
 
     fn generate_direction() -> bool {
