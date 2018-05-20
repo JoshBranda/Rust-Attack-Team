@@ -20,16 +20,23 @@ use characters::Crab;
 use sprites::Square;
 use ggez::event::{Keycode, Mod};
 use ggez::{GameResult, Context};
-use ggez::graphics::{self, set_color, Color, DrawMode, Point2};
+use ggez::graphics::{self};
 use ggez::conf;
 use ggez::event;
 
+mod traffic;
+
+// Screen dimensions. Currently portrait mode.
+const WIN_W: u32 = 400;
+const WIN_H: u32 = 700;
+const NUM_OF_LANES: u32 = 5; //This can change based on difficulty/level
 
 // Contains properties to track during gameplay
 // In this example it is only tracking the x coord of the orb
 struct MainState {
     player: Crab,
-    lanes: Vec<traffic::Lane>
+    lanes: Vec<traffic::Lane>,
+    lane_modifier: f32
 }
 
 impl MainState {
@@ -38,9 +45,9 @@ impl MainState {
         let h = WIN_H;
         let lanes = vec![];
         let s = MainState { 
+            player: Crab::new(_ctx, WIN_W, WIN_H),
             lanes: lanes,
-            player: Crab::new(_ctx, WIN_W, WIN_H)
-
+            lane_modifier: 6.0
         };
         Ok(s)
     }
@@ -50,8 +57,9 @@ impl event::EventHandler for MainState {
     fn update(&mut self, _ctx: &mut Context) -> GameResult<()> {
 
         // Create new lanes
-        if (self.lanes.len() as u32) < 1 {
-            self.lanes.push(traffic::Lane::construct(WIN_H));      
+        if (self.lanes.len() as u32) < NUM_OF_LANES {
+            self.lanes.push(traffic::Lane::construct(WIN_H, WIN_H, self.lane_modifier));    
+            self.lane_modifier += 3.0;  
         }
 
         //Update laness
