@@ -23,7 +23,10 @@ mod traffic;
 
 // Screen dimensions. Currently portrait mode.
 const WIN_W: u32 = 400;
-const WIN_H: u32 = 700;
+const WIN_H: u32 = 600;
+
+//Square size of graphic can be adjusted here
+const SQUARE_SIZE: f32 = 25.0;
 
 // Contains properties to track during gameplay
 // In this example it is only tracking the x coord of the orb
@@ -34,10 +37,12 @@ struct MainState {
 
 impl MainState {
     fn new(_ctx: &mut Context) -> GameResult<MainState> {
+        let w = WIN_W;
+        let h = WIN_H;
         let cars = vec![];
         let s = MainState { 
             cars: cars,
-            player: Crab::new(_ctx, WIN_W, WIN_H)
+            player: Crab::new(_ctx, w, h)
         };
         Ok(s)
     }
@@ -47,12 +52,14 @@ impl event::EventHandler for MainState {
     fn update(&mut self, _ctx: &mut Context) -> GameResult<()> {
         // Create new cars
         if (self.cars.len() as u32) < 4 {
+            let w = WIN_W;
+            let h = WIN_H;
             let mut delay = 0.0;
             if (self.cars.len() as u32) >= 1{
                 delay += traffic::SQUARE_SIZE * 6.3 * self.cars.len() as f32;
-                self.cars.push(traffic::Car::construct(WIN_H, delay));
+                self.cars.push(traffic::Car::construct(h, delay));
             } else {
-                self.cars.push(traffic::Car::construct(WIN_H, delay));
+                self.cars.push(traffic::Car::construct(w, delay));
             }
         }
 
