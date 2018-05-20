@@ -6,12 +6,10 @@ for license terms.
 */
 extern crate ggez;
 
+use constants::SQUARE_SIZE;
 use sprites::Square;
 use ggez::{GameResult, Context};
 use ggez::graphics::{self, set_color, Color, DrawMode, Point2};
-
-//Square size of graphic can be adjusted here
-const SQUARE_SIZE: f32 = 25.0;
 
 pub struct Crab {
     form: Square,

@@ -1,6 +1,6 @@
 /*
 Copyright (c) 2018 Matt Carnovale, Julie Rutherford-Fields, Joshua Sander
-This work is available under the "3-clause ('new') BSD License”.
+This work is available under the "MIT License”.
 Please see the file LICENSE in this distribution
 for license terms.
 */
@@ -8,9 +8,7 @@ for license terms.
 use ggez::{GameResult, Context};
 use ggez::graphics;
 
-
-//Square size of graphic can be adjusted here
-pub const SQUARE_SIZE: f32 = 25.0;
+use constants::SQUARE_SIZE;
 
 //The vehicles will be a variety of rectangles until we find some sprites
 struct Vehicle {
