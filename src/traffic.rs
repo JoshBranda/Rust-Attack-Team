@@ -8,7 +8,9 @@ for license terms.
 use ggez::{GameResult, Context};
 use ggez::graphics;
 
-use constants::SQUARE_SIZE;
+
+//Square size of graphic can be adjusted here
+pub const SQUARE_SIZE: f32 = 20.0;
 
 //The vehicles will be a variety of rectangles until we find some sprites
 struct Vehicle {
@@ -67,7 +69,7 @@ impl Car {
         let lane = 1;
         let speed = 1.0;
         let w = SQUARE_SIZE * 2 as f32;
-        let h = SQUARE_SIZE as f32;
+        let h = SQUARE_SIZE * 1.5 as f32;
         let x = 0.0 - w - 10.0 - delay;
         let y = win_h as f32 - (lane as f32 + 4.0) * SQUARE_SIZE;
         Car {
