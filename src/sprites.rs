@@ -8,31 +8,46 @@ for license terms.
 extern crate ggez;
 
 use ggez::{GameResult, Context};
-use ggez::graphics::{self, set_color, Color, DrawMode, Point2};
+use ggez::graphics::{self, set_color, Color, DrawMode};
 
-pub struct Square {
+pub struct Rectangle {
     pub x: f32,
     pub y: f32,
-    width: f32,
-    height: f32,
-    colour: Color,
+    pub w: f32,
+    pub h: f32,
+    pub colour: graphics::Color    //ggez Color struct: r: f32  g: f32  b: f32  a: f32
 }
 
-impl Square {
-    pub fn new(_ctx: &mut Context, x: f32, y: f32, width: f32, height: f32, colour: Color) -> Square {
-        Square {
+impl Rectangle {
+    /* Context: an object provided by ggez that holds global resources (aka state: screen, 
+     * audio hardware, timers, etc.) Typically, if a function is going to interact with 
+     * hardware it will need access to Context
+     */
+    pub fn construct(x: f32, y: f32, w: f32, h: f32, colour: Color) -> Rectangle {
+        Rectangle {
             x: x,
             y: y,
-            width: width,
-            height: height,
-            colour: colour,
+            w: w,
+            h: h,
+            colour: colour
         }
     }
 
-    pub fn draw(&mut self, ctx: &mut Context) -> GameResult<()> {
+    //Draws the given object to the screen
+    pub fn draw(&mut self, ctx: &mut Context, ) -> GameResult<()> {
+
+        //Sets the color for the object
         set_color(ctx, self.colour)?;
-        let square = graphics::Rect::new(self.x, self.y, self.width, self.height);
-        graphics::rectangle(ctx, DrawMode::Fill, square)?;
+        /* A simple 2D rectangle: the origin of the rectangle is at the top-left, 
+         * with x increasing to the right and y increasing down.
+         */    
+        let rectangle = graphics::Rect::new(self.x, self.y, self.w, self.h);
+        //Draws a rectangle. DrawMode specifies whether a shape should be drawn filled or as an outline.
+       
+        graphics::rectangle(ctx, DrawMode::Fill, rectangle)?;
+
+        //This is the Gameresult type returned if there was not an error
         Ok(())
     }
+
 }

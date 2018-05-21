@@ -15,31 +15,30 @@ pub mod traffic;
 
 use constants::WIN_W;
 use constants::WIN_H;
-use constants::SQUARE_SIZE;
 use characters::Crab;
-use sprites::Square;
 use ggez::event::{Keycode, Mod};
 use ggez::{GameResult, Context};
-use ggez::graphics::{self, set_color, Color, DrawMode, Point2};
+use ggez::graphics::{self};
 use ggez::conf;
 use ggez::event;
 
+const NUM_OF_LANES: u32 = 5; //This can change based on difficulty/level
 
 // Contains properties to track during gameplay
 // In this example it is only tracking the x coord of the orb
 struct MainState {
     player: Crab,
-    cars: Vec<traffic::Car>
+    lanes: Vec<traffic::Lane>,
+    lane_modifier: f32
 }
 
 impl MainState {
     fn new(_ctx: &mut Context) -> GameResult<MainState> {
-        let w = WIN_W;
-        let h = WIN_H;
-        let cars = vec![];
+        let lanes = vec![];
         let s = MainState { 
-            cars: cars,
-            player: Crab::new(_ctx, w, h)
+            player: Crab::new(WIN_W, WIN_H),
+            lanes: lanes,
+            lane_modifier: 6.0
         };
         Ok(s)
     }
@@ -47,22 +46,16 @@ impl MainState {
 
 impl event::EventHandler for MainState {
     fn update(&mut self, _ctx: &mut Context) -> GameResult<()> {
-        // Create new cars
-        if (self.cars.len() as u32) < 4 {
-            let w = WIN_W;
-            let h = WIN_H;
-            let mut delay = 0.0;
-            if (self.cars.len() as u32) >= 1{
-                delay += SQUARE_SIZE * 6.3 * self.cars.len() as f32;
-                self.cars.push(traffic::Car::construct(h, delay));
-            } else {
-                self.cars.push(traffic::Car::construct(w, delay));
-            }
+
+        // Create new lanes
+        if (self.lanes.len() as u32) < NUM_OF_LANES {
+            self.lanes.push(traffic::Lane::construct(self.lane_modifier));    
+            self.lane_modifier += 1.0;  
         }
 
-        //Update cars
-        for car in &mut self.cars {
-            car.update();
+        //Update lanes
+        for lane in &mut self.lanes {
+            lane.update_vehicles_in_lane();
         }
 
         Ok(())
@@ -71,9 +64,9 @@ impl event::EventHandler for MainState {
     fn draw(&mut self, ctx: &mut Context) -> GameResult<()> {
         graphics::clear(ctx);
 
-        //Draw our cars
-        for car in &mut self.cars {
-            car.draw(ctx)?;
+        //Draw our lanes
+        for lane in &mut self.lanes {
+            lane.draw_vehicles_in_lane(ctx)?;
         }
 
         self.player.draw(ctx)?;
