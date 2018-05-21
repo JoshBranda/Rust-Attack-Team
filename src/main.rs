@@ -50,7 +50,7 @@ impl event::EventHandler for MainState {
         // Create new lanes
         if (self.lanes.len() as u32) < NUM_OF_LANES {
             self.lanes.push(traffic::Lane::construct(self.lane_modifier));    
-            self.lane_modifier += 2.0;  
+            self.lane_modifier += 1.0;  
         }
 
         //Update lanes
