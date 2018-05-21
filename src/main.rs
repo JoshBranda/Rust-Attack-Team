@@ -15,20 +15,13 @@ pub mod traffic;
 
 use constants::WIN_W;
 use constants::WIN_H;
-use constants::SQUARE_SIZE;
 use characters::Crab;
-use sprites::Square;
 use ggez::event::{Keycode, Mod};
 use ggez::{GameResult, Context};
 use ggez::graphics::{self};
 use ggez::conf;
 use ggez::event;
 
-mod traffic;
-
-// Screen dimensions. Currently portrait mode.
-const WIN_W: u32 = 400;
-const WIN_H: u32 = 700;
 const NUM_OF_LANES: u32 = 5; //This can change based on difficulty/level
 
 // Contains properties to track during gameplay
@@ -41,11 +34,9 @@ struct MainState {
 
 impl MainState {
     fn new(_ctx: &mut Context) -> GameResult<MainState> {
-        let w = WIN_W;
-        let h = WIN_H;
         let lanes = vec![];
         let s = MainState { 
-            player: Crab::new(_ctx, WIN_W, WIN_H),
+            player: Crab::new(WIN_W, WIN_H),
             lanes: lanes,
             lane_modifier: 6.0
         };
@@ -58,8 +49,8 @@ impl event::EventHandler for MainState {
 
         // Create new lanes
         if (self.lanes.len() as u32) < NUM_OF_LANES {
-            self.lanes.push(traffic::Lane::construct(WIN_H, WIN_H, self.lane_modifier));    
-            self.lane_modifier += 3.0;  
+            self.lanes.push(traffic::Lane::construct(self.lane_modifier));    
+            self.lane_modifier += 2.0;  
         }
 
         //Update laness

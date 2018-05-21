@@ -6,103 +6,58 @@ for license terms.
 */
 
 use ggez::{GameResult, Context};
-use ggez::graphics;
+use ggez::graphics::{Color};
 use rand::{Rng, thread_rng};
-
-
-//Square size of graphic can be adjusted here
-pub const SQUARE_SIZE: f32 = 20.0;
-
-//The vehicles will be a variety of rectangles until we find some sprites
-struct Vehicle {
-    x: f32,
-    y: f32,
-    w: f32,
-    h: f32,
-    color: graphics::Color    //ggez Color struct: r: f32  g: f32  b: f32  a: f32
-}
-
-impl Vehicle {
-    /* Context: an object provided by ggez that holds global resources (aka state: screen, 
-     * audio hardware, timers, etc.) Typically, if a function is going to interact with 
-     * hardware it will need access to Context
-     */
-    fn construct(x: f32, y: f32, w: f32, h: f32, color: graphics::Color) -> Vehicle {
-        Vehicle {
-            x: x,
-            y: y,
-            w: w,
-            h: h,
-            color: color
-        }
-    }
-
-    //Draws the given object to the screen
-    fn draw(&mut self, ctx: &mut Context, ) -> GameResult<()> {
-
-        //Sets the color for the object
-        graphics::set_color(ctx, self.color)?;
-        /* A simple 2D rectangle: the origin of the rectangle is at the top-left, 
-         * with x increasing to the right and y increasing down.
-         */    
-        let rectangle = graphics::Rect::new(self.x, self.y, self.w, self.h);
-        //Draws a rectangle. DrawMode specifies whether a shape should be drawn filled or as an outline.
-       
-        graphics::rectangle(ctx, graphics::DrawMode::Fill, rectangle)?;
-
-        //This is the Gameresult type returned if there was not an error
-        Ok(())
-    }
-
-}
+use sprites::Rectangle;
+use constants::WIN_W;
+use constants::WIN_H;
+use constants::SQUARE_SIZE;
 
 //We can also make trucks & bikes/motorcycles
-pub struct Car {
-    form: Vehicle,
+pub struct Vehicle {
+    form: Rectangle,
     speed: f32,
-    delay: f32,
     direction: bool
 }
 
-impl Car {
+impl Vehicle {
 
-    pub fn construct(y: f32, win_w: u32, speed: f32, delay: f32, ltr_direction: bool) -> Car {
+    pub fn construct(y: f32, speed: f32, delay: f32, ltr_direction: bool) -> Vehicle {
         let w = SQUARE_SIZE * 2 as f32;
         let h = SQUARE_SIZE * 1.5 as f32;
-        let x = Car::assign_starting_x(ltr_direction, w, win_w, delay);
-        Car {
-            form: Vehicle::construct(
+        let x = Vehicle::assign_starting_x(ltr_direction, w, delay);
+        Vehicle {
+            form: Rectangle::construct(
                 x,
                 y,
                 w,
                 h,
-                Car::assign_color()
+                Vehicle::assign_color()
             ),
             speed,
-            delay,
             direction: ltr_direction
         }
     }
 
-    fn assign_starting_x(ltr_direction: bool, w: f32, win_w: u32, delay: f32) -> f32 {      
+    fn assign_starting_x(ltr_direction: bool, w: f32, delay: f32) -> f32 {      
        match ltr_direction {
            true => 0.0 - w - 10.0 - delay,
-           false => win_w as f32 - 10.0 - delay
+           false => WIN_W as f32 - 10.0 - delay
        }
     }
 
-    fn assign_color() -> graphics::Color {
+    fn assign_color() -> Color {
         let mut rng = thread_rng();
         let color: u32 = rng.gen_range(0,99999) % 7;
 
         match color {
-            0 => graphics::Color::new(0.0, 0.0, 1.0, 1.0), 
-            1 => graphics::Color::new(1.0, 0.0, 0.0, 1.0), 
-            2 => graphics::Color::new(0.0, 1.0, 0.0, 1.0),  
-            3 => graphics::Color::new(1.0, 1.0, 0.0, 1.0),  
-            4 => graphics::Color::new(0.0, 1.0, 1.0, 1.0),  
-            5 => graphics::Color::new(1.0, 0.0, 1.0, 1.0), 
-            _ => graphics::Color::new(1.0, 0.5, 1.0, 0.5) 
+            0 => Color::new(0.0, 0.0, 1.0, 1.0), 
+            1 => Color::new(1.0, 0.0, 0.0, 1.0), 
+            2 => Color::new(0.0, 1.0, 0.0, 1.0),  
+            3 => Color::new(1.0, 1.0, 0.0, 1.0),  
+            4 => Color::new(0.0, 1.0, 1.0, 1.0),  
+            5 => Color::new(1.0, 0.0, 1.0, 1.0), 
+            _ => Color::new(1.0, 0.5, 1.0, 0.5) 
         }
     }
 
@@ -113,10 +68,10 @@ impl Car {
 
     fn update(&mut self) {
         if self.direction {
-            if self.form.x >= 410.0 { self.form.x = 0.0 - self.form.w - 10.0}
+            if self.form.x >= WIN_W as f32 + 10.0 { self.form.x = 0.0 - self.form.w - 10.0}
             self.form.x = self.form.x + self.speed;
         } else{
-            if self.form.x <= -self.form.w { self.form.x = 400.0 - 10.0}
+            if self.form.x <= -self.form.w { self.form.x = WIN_W as f32 - 10.0}
             self.form.x = self.form.x - self.speed;
         }
     }
@@ -124,27 +79,27 @@ impl Car {
 
 pub struct Lane {
     v_type: u32,   //This will allow us to choose different sprites for Cars or Trucks
-    cars: Vec<Car>
+    cars: Vec<Vehicle>
 }
 
 impl Lane {
 
-    pub fn construct(win_h: u32, win_w: u32, y_modifier: f32) -> Lane {
-        let y = win_h as f32 - y_modifier * SQUARE_SIZE;  //Will change based on lane #
+    pub fn construct(y_modifier: f32) -> Lane {
+        let y = WIN_H as f32 - y_modifier * SQUARE_SIZE;  //Will change based on lane #
         let num_of_cars= 4; //Should change based on speed / size
         let ltr_direction= Lane::generate_direction();
         let speed= Lane::generate_speed();
         Lane {
             v_type: Lane::generate_vehicle_type(),                     
-            cars: Lane::create_cars(y, win_w, num_of_cars, speed, ltr_direction)
+            cars: Lane::create_cars(y, num_of_cars, speed, ltr_direction)
         }
     }
 
-    fn create_cars(y: f32, win_w: u32, num_of_cars: u32, speed: f32, ltr_direction: bool) -> Vec<Car>{
+    fn create_cars(y: f32, num_of_cars: u32, speed: f32, ltr_direction: bool) -> Vec<Vehicle>{
         let mut cars = vec![];
         let mut delay = 0.0;
         while (cars.len() as u32) < num_of_cars {
-            cars.push(Car::construct(y, win_w, speed, delay, ltr_direction));
+            cars.push(Vehicle::construct(y, speed, delay, ltr_direction));
             delay += SQUARE_SIZE * 4.5;     
         }      
         cars
