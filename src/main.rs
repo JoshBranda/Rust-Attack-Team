@@ -29,7 +29,7 @@ use ggez::event;
 // In this example it is only tracking the x coord of the orb
 struct MainState {
     player: Crab,
-    cars: Vec<traffic::Car>
+    // cars: Vec<traffic::Car>
 }
 
 impl MainState {
@@ -38,7 +38,7 @@ impl MainState {
         let h = WIN_H;
         let cars = vec![];
         let s = MainState { 
-            cars: cars,
+        
             player: Crab::new(_ctx, w, h)
         };
         Ok(s)
@@ -61,9 +61,9 @@ impl event::EventHandler for MainState {
         }
 
         //Update cars
-        for car in &mut self.cars {
-            car.update();
-        }
+        // for car in &mut self.cars {
+        //     car.update();
+        // }
 
         Ok(())
     }
@@ -72,9 +72,9 @@ impl event::EventHandler for MainState {
         graphics::clear(ctx);
 
         //Draw our cars
-        for car in &mut self.cars {
-            car.draw(ctx)?;
-        }
+        // for car in &mut self.cars {
+        //     car.draw(ctx)?;
+        // }
 
         self.player.draw(ctx)?;
 
