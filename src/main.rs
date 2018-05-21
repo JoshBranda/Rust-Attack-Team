@@ -53,7 +53,7 @@ impl event::EventHandler for MainState {
             self.lane_modifier += 2.0;  
         }
 
-        //Update laness
+        //Update lanes
         for lane in &mut self.lanes {
             lane.update_vehicles_in_lane();
         }
