@@ -6,11 +6,11 @@ for license terms.
 */
 
 // Square pixel dimensions as basis for all graphics
-pub const SQUARE_SIZE: f32 = 50.0;
+pub const SQUARE_SIZE: f32 = 25.0;
 
 // Screen dimensions. Currently portrait mode.
-pub const WIN_W: u32 = 800;
-pub const WIN_H: u32 = 600;
+pub const WIN_W: u32 = 400;
+pub const WIN_H: u32 = 700;
 
 // Game course dimensions
 pub const NUM_R: u32 = WIN_W / SQUARE_SIZE as u32 - 1;	// Index of rows starting at position 0
