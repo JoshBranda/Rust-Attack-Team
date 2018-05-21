@@ -24,7 +24,7 @@ impl Vehicle {
 
     pub fn construct(y: f32, speed: f32, delay: f32, ltr_direction: bool) -> Vehicle {
         let w = SQUARE_SIZE * 2 as f32;
-        let h = SQUARE_SIZE * 1.5 as f32;
+        let h = SQUARE_SIZE as f32;
         let x = Vehicle::assign_starting_x(ltr_direction, w, delay);
         Vehicle {
             form: Rectangle::construct(
