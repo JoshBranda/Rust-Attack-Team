@@ -58,3 +58,107 @@ impl Crab {
         }
     }
 }
+
+//Unit tests for Crab functions.  All paths are tested except for draw
+#[cfg(test)]
+mod tests {
+
+    use super::*;
+
+    #[test]
+    fn move_left_succeeds_with_space() {
+        let multiplier: u32 = 2;
+        let mut crab = Crab::new((SQUARE_SIZE as u32) * multiplier, (SQUARE_SIZE as u32) * multiplier);
+
+        let starting_x = crab.form.x;
+        crab.move_left();
+
+        assert_ne!(crab.form.x, starting_x);
+        assert_eq!(crab.form.x, starting_x - SQUARE_SIZE);
+    }
+
+    #[test]
+    fn move_left_fails_without_space() {
+        let multiplier: u32 = 2;
+        let mut crab = Crab::new((SQUARE_SIZE as u32) * multiplier, (SQUARE_SIZE as u32) * multiplier);
+
+        crab.form.x = SQUARE_SIZE - 1.0;
+        let starting_x = crab.form.x;
+        crab.move_left();
+
+        assert_eq!(crab.form.x, starting_x);
+    }
+
+    #[test]
+    fn move_right_succeeds_with_space() {
+        let multiplier: u32 = 7;
+        let mut crab = Crab::new((SQUARE_SIZE as u32) * multiplier, (SQUARE_SIZE as u32) * multiplier);
+
+        let starting_x = crab.form.x;
+        crab.move_right();
+
+        assert_ne!(crab.form.x, starting_x);
+        assert_eq!(crab.form.x, starting_x + SQUARE_SIZE);
+    }
+
+    #[test]
+    fn move_right_fails_without_space() {
+        let multiplier: u32 = 6;
+        let mut crab = Crab::new((SQUARE_SIZE as u32) * multiplier, (SQUARE_SIZE as u32) * multiplier);
+
+        let starting_x = crab.form.x;
+        crab.move_right();
+
+        assert_eq!(crab.form.x, starting_x);
+    }
+
+    #[test]
+    fn move_down_succeeds_with_space() {
+        let multiplier: u32 = 7;
+        let mut crab = Crab::new((SQUARE_SIZE as u32) * multiplier, (SQUARE_SIZE as u32) * multiplier);
+
+        crab.form.y = crab.form.y - SQUARE_SIZE;
+        let starting_y = crab.form.y;
+        crab.move_down();
+
+        assert_ne!(crab.form.y, starting_y);
+        assert_eq!(crab.form.y, starting_y + SQUARE_SIZE);
+    }
+
+    #[test]
+    fn move_down_fails_without_space() {
+        let multiplier: u32 = 2;
+        let mut crab = Crab::new((SQUARE_SIZE as u32) * multiplier, (SQUARE_SIZE as u32) * multiplier);
+
+
+        let starting_y = crab.form.y;
+        crab.move_down();
+
+        assert_eq!(crab.form.y, starting_y);
+    }
+
+    #[test]
+    fn move_up_succeeds_with_space() {
+        let multiplier: u32 = 2;
+        let mut crab = Crab::new((SQUARE_SIZE as u32) * multiplier, (SQUARE_SIZE as u32) * multiplier);
+
+        let starting_y = crab.form.y;
+        crab.move_up();
+
+        assert_ne!(crab.form.y, starting_y);
+        assert_eq!(crab.form.y, starting_y - SQUARE_SIZE);
+    }
+
+    #[test]
+    fn move_up_fails_without_space() {
+        let multiplier: u32 = 2;
+        let mut crab = Crab::new((SQUARE_SIZE as u32) * multiplier, (SQUARE_SIZE as u32) * multiplier);
+
+        crab.form.y = 0 as f32;
+        let starting_y = crab.form.y;
+        crab.move_up();
+
+        assert_eq!(crab.form.y, starting_y);
+    }
+
+}
