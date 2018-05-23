@@ -17,3 +17,6 @@ pub const NUM_R: u32 = WIN_W / SQUARE_SIZE as u32 - 1;	// Index of rows starting
 pub const MID_R: u32 = NUM_R / 2;						// Middle row index
 pub const START: u32 = SQUARE_SIZE as u32;				// Starting position as y coordinate in pixels
 pub const END  : u32 = WIN_H - SQUARE_SIZE as u32 * 4;	// Ending position as y coordinate in pixels
+
+//Crab lives
+pub const LIVES: i32 = 3;
