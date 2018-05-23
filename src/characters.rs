@@ -63,6 +63,7 @@ impl Crab {
         if self.form.x - SQUARE_SIZE + 1.0 > 0.0 {
             self.form.x -= SQUARE_SIZE;
         }
+        self.lose_life();
     }
 
     pub fn lose_life(&mut self) {
@@ -93,6 +94,7 @@ impl Crab {
     pub fn restart_y(&mut self) {
         self.form.y = self.win_h - 1.0 * SQUARE_SIZE;
     }
+
 }
 
 //Unit tests for Crab functions.  All paths are tested except for draw

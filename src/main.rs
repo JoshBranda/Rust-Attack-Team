@@ -13,8 +13,8 @@ pub mod constants;
 pub mod sprites;
 pub mod traffic;
 
-use constants::WIN_W;
-use constants::WIN_H;
+use constants::{WIN_W, WIN_H, SQUARE_SIZE};
+//use constants::WIN_H;
 use characters::Crab;
 use ggez::event::{Keycode, Mod};
 use ggez::{GameResult, Context};
@@ -71,7 +71,7 @@ impl event::EventHandler for MainState {
             //Clear screen, optional
             graphics::clear(_ctx);
 
-            //Scalable center, text should always be in center regardless of dimensions
+            //Gamve over has a scalable center, text should always be in center regardless of dimensions
             let center:f32 = WIN_W as f32 / 2.0 - *&self.game_over_man.width() as f32 / 2.0;
 
             let dest_point = graphics::Point2::new(center, WIN_H as f32 / 2.0);
@@ -100,6 +100,13 @@ impl event::EventHandler for MainState {
         }
 
         self.player.draw(ctx)?;
+
+        //Draw the lives in the bottom left
+        let lives = format!{"Lives: {}", self.player.get_lives()};
+        let font_smaller = graphics::Font::new(ctx, "/game_over.ttf", 16).unwrap();
+        let lives_text = graphics::Text::new(ctx, &lives, &font_smaller)?;
+        let dest_point = graphics::Point2::new(0 as f32, WIN_H as f32 - SQUARE_SIZE);
+        graphics::draw(ctx, &lives_text, dest_point, 0.0)?;
 
         graphics::present(ctx);
         Ok(())
