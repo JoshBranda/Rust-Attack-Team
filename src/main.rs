@@ -8,13 +8,20 @@ for license terms.
 extern crate ggez;
 extern crate rand;
 
+pub mod background;
 pub mod characters;
 pub mod constants;
 pub mod sprites;
 pub mod traffic;
 
+use background::Start;
+use background::Middle;
+use background::River;
+use background::End;
+
 use constants::WIN_W;
 use constants::WIN_H;
+use constants::LANES;
 use characters::Crab;
 use ggez::event::{Keycode, Mod};
 use ggez::{GameResult, Context};
@@ -22,11 +29,15 @@ use ggez::graphics::{self};
 use ggez::conf;
 use ggez::event;
 
-const NUM_OF_LANES: u32 = 5; //This can change based on difficulty/level
+// const NUM_OF_LANES: u32 = 5; //This can change based on difficulty/level
 
 // Contains properties to track during gameplay
 // In this example it is only tracking the x coord of the orb
 struct MainState {
+    start: Start,
+    middle: Middle,
+    river: River,
+    end: End,
     player: Crab,
     lanes: Vec<traffic::Lane>,
     lane_modifier: f32
@@ -36,9 +47,13 @@ impl MainState {
     fn new(_ctx: &mut Context) -> GameResult<MainState> {
         let lanes = vec![];
         let s = MainState { 
+            start: Start::new(WIN_W, WIN_H),
+            middle: Middle::new(WIN_W, WIN_H),
+            river: River::new(WIN_W, WIN_H),
+            end: End::new(WIN_W, WIN_H),
             player: Crab::new(WIN_W, WIN_H),
             lanes: lanes,
-            lane_modifier: 6.0
+            lane_modifier: 3.0
         };
         Ok(s)
     }
@@ -48,7 +63,7 @@ impl event::EventHandler for MainState {
     fn update(&mut self, _ctx: &mut Context) -> GameResult<()> {
 
         // Create new lanes
-        if (self.lanes.len() as u32) < NUM_OF_LANES {
+        if (self.lanes.len() as u32) < LANES {
             self.lanes.push(traffic::Lane::construct(self.lane_modifier));    
             self.lane_modifier += 1.0;  
         }
@@ -63,6 +78,13 @@ impl event::EventHandler for MainState {
 
     fn draw(&mut self, ctx: &mut Context) -> GameResult<()> {
         graphics::clear(ctx);
+
+        //Draw background
+        self.start.draw(ctx)?;
+        self.middle.draw(ctx)?;
+        self.river.draw(ctx)?;
+        self.end.draw(ctx)?;
+
 
         //Draw our lanes
         for lane in &mut self.lanes {
