@@ -39,7 +39,7 @@ impl Start {
                 h as f32 - 2.0 * SQUARE_SIZE,
                 w as f32,
                 2.0 * SQUARE_SIZE,
-                Color::new(0.0, 1.0, 0.5, 0.5),
+                Color::new(0.0, 1.0, 0.5, 0.4),
             ),
         }
     }
@@ -55,10 +55,10 @@ impl Middle {
         Middle {
             form: Rectangle::construct(
                 0.0,
-                h as f32 - (MID_R as f32 * SQUARE_SIZE) + 1.0,
+                h as f32 - (MID_R as f32 * SQUARE_SIZE),
                 w as f32,
                 1.0 * SQUARE_SIZE,
-                Color::new(0.0, 1.0, 0.5, 0.5),
+                Color::new(0.0, 1.0, 0.5, 0.4),
             ),
         }
     }
@@ -77,7 +77,7 @@ impl River {
                 h as f32 - (NUM_R as f32 - 3.0) * SQUARE_SIZE,
                 w as f32,
                 LOGS as f32 * SQUARE_SIZE + 1.0,
-                Color::new(0.0, 0.5, 1.0, 0.5)
+                Color::new(0.0, 0.5, 1.0, 0.6)
             ),
         }
     }
@@ -96,7 +96,7 @@ impl End {
                 h as f32 - (NUM_R as f32) * SQUARE_SIZE,
                 w as f32,
                 SQUARE_SIZE * 3.0,
-                Color::new(0.0, 1.0, 0.5, 0.5)
+                Color::new(0.0, 1.0, 0.5, 0.4)
             ),
         }
     }

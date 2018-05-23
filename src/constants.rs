@@ -21,4 +21,4 @@ pub const END  : u32 = WIN_H - SQUARE_SIZE as u32 * 3;	// Ending position as y c
 pub const NUM_C: u32 = WIN_W / SQUARE_SIZE as u32;		// Number of columns starting at index 0
 pub const MID_C: u32 = NUM_C / 2;						// Middle row index
 pub const LANES: u32 = MID_R - 3;						// Number of lanes of traffic
-pub const LOGS : u32 = NUM_R - MID_R - 3;					// Number of log lanes 
+pub const LOGS : u32 = NUM_R - MID_R - 3;				// Number of log lanes 
