@@ -21,6 +21,8 @@ use ggez::{GameResult, Context};
 use ggez::graphics::{self};
 use ggez::conf;
 use ggez::event;
+use ggez::timer;
+use std::time::Duration;
 
 const NUM_OF_LANES: u32 = 5; //This can change based on difficulty/level
 
@@ -29,16 +31,20 @@ const NUM_OF_LANES: u32 = 5; //This can change based on difficulty/level
 struct MainState {
     player: Crab,
     lanes: Vec<traffic::Lane>,
-    lane_modifier: f32
+    lane_modifier: f32,
+    game_over_man: graphics::Text
 }
 
 impl MainState {
     fn new(_ctx: &mut Context) -> GameResult<MainState> {
+        let font = graphics::Font::new(_ctx, "/game_over.ttf", 48).unwrap();
+        let text = graphics::Text::new(_ctx, "Game Over Man!", &font)?;
         let lanes = vec![];
         let s = MainState { 
             player: Crab::new(WIN_W, WIN_H),
             lanes: lanes,
-            lane_modifier: 6.0
+            lane_modifier: 6.0,
+            game_over_man: text
         };
         Ok(s)
     }
@@ -56,6 +62,30 @@ impl event::EventHandler for MainState {
         //Update lanes
         for lane in &mut self.lanes {
             lane.update_vehicles_in_lane();
+        }
+
+        //Check for game over
+        if self.player.get_lives() <= 0 {
+            self.player.set_lives();
+
+            //Clear screen, optional
+            graphics::clear(_ctx);
+
+            //Scalable center, text should always be in center regardless of dimensions
+            let center:f32 = WIN_W as f32 / 2.0 - *&self.game_over_man.width() as f32 / 2.0;
+
+            let dest_point = graphics::Point2::new(center, WIN_H as f32 / 2.0);
+            graphics::draw(_ctx, &self.game_over_man, dest_point, 0.0)?;
+            graphics::present(_ctx);
+            timer::sleep(Duration::from_secs(2));
+        }
+
+        //Take a life
+        if self.player.get_life_lost() == true {
+            self.player.set_life_lost();
+            timer::sleep(Duration::from_secs(1));
+            self.player.restart_x();
+            self.player.restart_y();
         }
 
         Ok(())
@@ -85,6 +115,7 @@ impl event::EventHandler for MainState {
             _ => {}
         }
     }
+
 }
 
 pub fn main() {
