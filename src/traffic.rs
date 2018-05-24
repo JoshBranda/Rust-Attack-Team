@@ -9,9 +9,7 @@ use ggez::{GameResult, Context};
 use ggez::graphics::{Color};
 use rand::{Rng, thread_rng};
 use sprites::Rectangle;
-use constants::WIN_W;
-use constants::WIN_H;
-use constants::SQUARE_SIZE;
+use constants::{WIN_W, WIN_H, SQUARE_SIZE, MAX_NUM_OF_CARS, MAX_SPEED_OF_CARS, MIN_DELAY, MAX_DELAY};
 
 //We can also make trucks & bikes/motorcycles
 pub struct Vehicle {
@@ -86,7 +84,7 @@ impl Lane {
 
     pub fn construct(y_modifier: f32) -> Lane {
         let y = WIN_H as f32 - y_modifier * SQUARE_SIZE;  //Will change based on lane #
-        let num_of_cars= 4; //Should change based on speed / size
+        let num_of_cars= Lane::generate_number_of_cars(); //Should change based on speed / size
         let ltr_direction= Lane::generate_direction();
         let speed= Lane::generate_speed();
         Lane {
@@ -100,7 +98,8 @@ impl Lane {
         let mut delay = 0.0;
         while (cars.len() as u32) < num_of_cars {
             cars.push(Vehicle::construct(y, speed, delay, ltr_direction));
-            delay += SQUARE_SIZE * 4.5;     
+  
+            delay += Lane::generate_delay(num_of_cars)
         }      
         cars
     }
@@ -111,11 +110,27 @@ impl Lane {
         rng.gen_range(1,4)
     }
 
-    fn generate_speed() -> f32 {
+    fn generate_number_of_cars() -> u32 {
         let mut rng = thread_rng();
         
-        rng.gen_range(0.5_f32, 1.5_f32)
+        rng.gen_range(1_u32, MAX_NUM_OF_CARS)
     }
+
+    fn generate_speed() -> f32 {
+        let mut rng = thread_rng();
+
+        rng.gen_range(0.5_f32, MAX_SPEED_OF_CARS)
+    }
+
+    fn generate_delay(num_of_cars: u32) -> f32 {
+        let mut rng = thread_rng();
+
+        match num_of_cars{
+            MAX_NUM_OF_CARS => MIN_DELAY,
+            _ => rng.gen_range(MIN_DELAY,MAX_DELAY)
+        }
+
+    } 
 
     fn generate_direction() -> bool {
         let mut rng = thread_rng();
@@ -145,5 +160,4 @@ impl Lane {
     }
 
 }
-
   
