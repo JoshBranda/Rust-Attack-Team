@@ -19,6 +19,7 @@ use background::{Road, River};
 
 use constants::{WIN_W, WIN_H, SQUARE_SIZE, NUM_LANE, START, GRASS};
 
+use constants::LANE_MODIFIER;
 use characters::Crab;
 use ggez::event::{Keycode, Mod};
 use ggez::{GameResult, Context};
@@ -51,7 +52,7 @@ impl MainState {
             // cubbie: Cubbie::new(WIN_W, WIN_H),
             player: Crab::new(WIN_W, START),
             lanes: lanes,
-            lane_modifier: 3.0,
+            lane_modifier: LANE_MODIFIER,
             game_over_man: text,
             main_menu: true,
             selection: 0
