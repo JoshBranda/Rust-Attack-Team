@@ -6,13 +6,7 @@ for license terms.
 */
 extern crate ggez;
 
-use constants::SQUARE_SIZE;
-use constants::MID_ROW;
-use constants::NUM_ROW;
-use constants::NUM_LANE;
-use constants::NUM_LOG;
-use constants::ROAD;
-use constants::RIVER;
+use constants::{SQUARE_SIZE, MID_ROW, NUM_ROW, NUM_LANE, NUM_LOG, ROAD, RIVER};
 use sprites::Rectangle;
 use ggez::{GameResult, Context};
 

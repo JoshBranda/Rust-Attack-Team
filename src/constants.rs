@@ -12,7 +12,7 @@ pub const SQUARE_SIZE: f32 = 25.0;
 
 // Screen dimensions. Currently portrait mode.
 pub const WIN_W: u32 	= 650;
-pub const WIN_H: u32 	= 800;
+pub const WIN_H: u32 	= 400;
 
 // Game background dimensions
 pub const NUM_ROW: u32 	= WIN_H / SQUARE_SIZE as u32;		// Number of rows starting at index 0

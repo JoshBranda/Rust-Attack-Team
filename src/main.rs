@@ -14,23 +14,17 @@ pub mod constants;
 pub mod sprites;
 pub mod traffic;
 
-use background::Road;
-use background::River;
+use background::{Road, River};
 // use background::Cubbie;
 
-use constants::NUM_LANE;
-use constants::START;
-use constants::GRASS;
-use constants::{WIN_W, WIN_H, SQUARE_SIZE};
+use constants::{WIN_W, WIN_H, SQUARE_SIZE, NUM_LANE, START, GRASS};
 
 use characters::Crab;
 use ggez::event::{Keycode, Mod};
 use ggez::{GameResult, Context};
 use ggez::graphics::{self};
 use ggez::graphics::set_background_color;
-use ggez::conf;
-use ggez::event;
-use ggez::timer;
+use ggez::{conf, event, timer};
 use std::time::Duration;
 
 
@@ -117,7 +111,7 @@ impl event::EventHandler for MainState {
             let font = graphics::Font::new(ctx, "/game_over.ttf", 56).unwrap();
             let name_text = graphics::Text::new(ctx, &game_name, &font)?;
             let horizontal: f32 = WIN_W as f32 / 2.0 - name_text.width() as f32 / 2.0;
-            let vertical: f32 = WIN_H as f32 / 2.0 - SQUARE_SIZE * 3.0;
+            let vertical: f32 = WIN_H as f32 / 2.0 + SQUARE_SIZE * 1.0;
             let dest_point = graphics::Point2::new(horizontal, vertical);
             graphics::draw(ctx, &name_text, dest_point, 0.0)?;
 
@@ -133,7 +127,7 @@ impl event::EventHandler for MainState {
             let font_start = graphics::Font::new(ctx, "/game_over.ttf", 20).unwrap();
             let start_text = graphics::Text::new(ctx, &start, &font_start)?;
             let horizontal2: f32 = WIN_W as f32 / 2.0 - start_text.width() as f32 / 2.0;
-            let vertical2: f32 = WIN_H as f32 / 2.0 + SQUARE_SIZE * 2.0;
+            let vertical2: f32 = WIN_H as f32 / 2.0 + SQUARE_SIZE * 5.0;
             let dest_point = graphics::Point2::new(horizontal2, vertical2);
             graphics::draw(ctx, &start_text, dest_point, 0.0)?;
 
