@@ -7,19 +7,17 @@ for license terms.
 extern crate ggez;
 
 use constants::SQUARE_SIZE;
-use constants::MID_R;
-use constants::NUM_R;
-use constants::LOGS;
-
+use constants::MID_ROW;
+use constants::NUM_ROW;
+use constants::NUM_LANE;
+use constants::NUM_LOG;
+use constants::ROAD;
+use constants::RIVER;
 use sprites::Rectangle;
 use ggez::{GameResult, Context};
-use ggez::graphics::{Color};
 
-pub struct Start {
-    form: Rectangle
-}
 
-pub struct Middle {
+pub struct Road {
     form: Rectangle
 }
 
@@ -27,38 +25,20 @@ pub struct River {
     form: Rectangle
 }
 
-pub struct End {
-    form: Rectangle
-}
+// pub struct Cubbie {
+//     form: Rectangle
+// }
 
-impl Start {
-    pub fn new(w: u32, h: u32) -> Start {
-        Start {
+
+impl Road {
+    pub fn new(w: u32, h: u32) -> Road {
+        Road {
             form: Rectangle::construct(
                 0.0,
-                h as f32 - 2.0 * SQUARE_SIZE,
+                h as f32 - (MID_ROW - 1) as f32 * SQUARE_SIZE,
                 w as f32,
-                2.0 * SQUARE_SIZE,
-                Color::new(0.0, 1.0, 0.5, 0.4),
-            ),
-        }
-    }
-
-    pub fn draw(&mut self, ctx: &mut Context) -> GameResult<()> {
-        self.form.draw(ctx)?;
-        Ok(())
-    }
-}
-
-impl Middle {
-    pub fn new(w: u32, h: u32) -> Middle {
-        Middle {
-            form: Rectangle::construct(
-                0.0,
-                h as f32 - (MID_R as f32 * SQUARE_SIZE),
-                w as f32,
-                1.0 * SQUARE_SIZE,
-                Color::new(0.0, 1.0, 0.5, 0.4),
+                NUM_LANE as f32 * SQUARE_SIZE,
+                ROAD,
             ),
         }
     }
@@ -74,10 +54,10 @@ impl River {
         River {
             form: Rectangle::construct(
                 0.0,
-                h as f32 - (NUM_R as f32 - 3.0) * SQUARE_SIZE,
+                h as f32 - (NUM_ROW as f32 - 3.0) * SQUARE_SIZE,
                 w as f32,
-                LOGS as f32 * SQUARE_SIZE + 1.0,
-                Color::new(0.0, 0.5, 1.0, 0.6)
+                NUM_LOG as f32 * SQUARE_SIZE + 1.0,
+                RIVER,
             ),
         }
     }
@@ -88,21 +68,3 @@ impl River {
     }
 }
 
-impl End {
-    pub fn new(w: u32, h: u32) -> End {
-        End {
-            form: Rectangle::construct(
-                0.0,
-                h as f32 - (NUM_R as f32) * SQUARE_SIZE,
-                w as f32,
-                SQUARE_SIZE * 3.0,
-                Color::new(0.0, 1.0, 0.5, 0.4)
-            ),
-        }
-    }
-
-    pub fn draw(&mut self, ctx: &mut Context) -> GameResult<()> {
-        self.form.draw(ctx)?;
-        Ok(())
-    }
-}
