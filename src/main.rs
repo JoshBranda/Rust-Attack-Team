@@ -24,6 +24,8 @@ use constants::NUM_LANE;
 use constants::START;
 use constants::GRASS;
 
+use constants::LANE_MODIFIER;
+use constants::NUM_OF_LANES;
 use characters::Crab;
 use ggez::event::{Keycode, Mod};
 use ggez::{GameResult, Context};
@@ -51,8 +53,7 @@ impl MainState {
             // cubbie: Cubbie::new(WIN_W, WIN_H),
             player: Crab::new(WIN_W, START),
             lanes: lanes,
-
-            lane_modifier: 3.0
+            lane_modifier: LANE_MODIFIER
         };
         Ok(s)
     }
