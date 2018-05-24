@@ -6,10 +6,10 @@ for license terms.
 */
 extern crate ggez;
 
-use constants::{SQUARE_SIZE, LIVES, WIN_H, WIN_W};
+use constants::{SQUARE_SIZE, LIVES, WIN_H, WIN_W, MID_COL};
 use sprites::{Rectangle, Crab_Sprite};
 use ggez::{GameResult, Context};
-use ggez::graphics::{Color};
+use ggez::graphics::WHITE;
 
 pub struct Crab {
     form: Crab_Sprite,

@@ -8,26 +8,36 @@ for license terms.
 extern crate ggez;
 extern crate rand;
 
+pub mod background;
 pub mod characters;
 pub mod constants;
 pub mod sprites;
 pub mod traffic;
 
+use background::Road;
+use background::River;
+// use background::Cubbie;
+
+use constants::NUM_LANE;
+use constants::START;
+use constants::GRASS;
 use constants::{WIN_W, WIN_H, SQUARE_SIZE};
+
 use characters::Crab;
 use ggez::event::{Keycode, Mod};
 use ggez::{GameResult, Context};
 use ggez::graphics::{self};
+use ggez::graphics::set_background_color;
 use ggez::conf;
 use ggez::event;
 use ggez::timer;
 use std::time::Duration;
 
-const NUM_OF_LANES: u32 = 5; //This can change based on difficulty/level
 
-// Contains properties to track during gameplay
-// In this example it is only tracking the x coord of the orb
 struct MainState {
+    road: Road,
+    river: River,
+    // cubbie: Cubbie,
     player: Crab,
     lanes: Vec<traffic::Lane>,
     lane_modifier: f32,
@@ -42,9 +52,12 @@ impl MainState {
         let text = graphics::Text::new(_ctx, "Game Over Man!", &font)?;
         let lanes = vec![];
         let s = MainState { 
-            player: Crab::new(WIN_W, WIN_H),
+            road: Road::new(WIN_W, WIN_H),
+            river: River::new(WIN_W, WIN_H),
+            // cubbie: Cubbie::new(WIN_W, WIN_H),
+            player: Crab::new(WIN_W, START),
             lanes: lanes,
-            lane_modifier: 6.0,
+            lane_modifier: 3.0,
             game_over_man: text,
             main_menu: true,
             selection: 0
@@ -58,7 +71,7 @@ impl event::EventHandler for MainState {
     fn update(&mut self, _ctx: &mut Context) -> GameResult<()> {
 
         // Create new lanes
-        if (self.lanes.len() as u32) < NUM_OF_LANES {
+        if (self.lanes.len() as u32) < NUM_LANE {
             self.lanes.push(traffic::Lane::construct(self.lane_modifier));    
             self.lane_modifier += 1.0;  
         }
@@ -98,20 +111,20 @@ impl event::EventHandler for MainState {
     fn draw(&mut self, ctx: &mut Context) -> GameResult<()> {
         graphics::clear(ctx);
 
-        if self.main_menu{
+        if self.main_menu {
             //Draw Crabber name upper-middle
             let game_name = format! {"CRABBER"};
             let font = graphics::Font::new(ctx, "/game_over.ttf", 56).unwrap();
             let name_text = graphics::Text::new(ctx, &game_name, &font)?;
-            let horizontal:f32 = WIN_W as f32 / 2.0 - name_text.width() as f32 / 2.0;
-            let vertical:f32 = WIN_H as f32 / 2.0 - SQUARE_SIZE * 3.0;
+            let horizontal: f32 = WIN_W as f32 / 2.0 - name_text.width() as f32 / 2.0;
+            let vertical: f32 = WIN_H as f32 / 2.0 - SQUARE_SIZE * 3.0;
             let dest_point = graphics::Point2::new(horizontal, vertical);
             graphics::draw(ctx, &name_text, dest_point, 0.0)?;
 
             //Draw the Crab logo
             let image_big_crab = graphics::Image::new(ctx, "/crab.png")?;
-            let horizontal_crab:f32 = WIN_W as f32 / 2.0 - image_big_crab.width() as f32 / 2.0;
-            let vertical_crab:f32 = vertical - SQUARE_SIZE * 8.0;
+            let horizontal_crab: f32 = WIN_W as f32 / 2.0 - image_big_crab.width() as f32 / 2.0;
+            let vertical_crab: f32 = vertical - SQUARE_SIZE * 8.0;
             let dest_point = graphics::Point2::new(horizontal_crab, vertical_crab);
             graphics::draw(ctx, &image_big_crab, dest_point, 0.0)?;
 
@@ -119,8 +132,8 @@ impl event::EventHandler for MainState {
             let start = format! {"Start"};
             let font_start = graphics::Font::new(ctx, "/game_over.ttf", 20).unwrap();
             let start_text = graphics::Text::new(ctx, &start, &font_start)?;
-            let horizontal2:f32 = WIN_W as f32 / 2.0 - start_text.width() as f32 / 2.0;
-            let vertical2:f32 = WIN_H as f32 / 2.0 + SQUARE_SIZE * 2.0;
+            let horizontal2: f32 = WIN_W as f32 / 2.0 - start_text.width() as f32 / 2.0;
+            let vertical2: f32 = WIN_H as f32 / 2.0 + SQUARE_SIZE * 2.0;
             let dest_point = graphics::Point2::new(horizontal2, vertical2);
             graphics::draw(ctx, &start_text, dest_point, 0.0)?;
 
@@ -128,8 +141,8 @@ impl event::EventHandler for MainState {
             let scores = format! {"Scores"};
             let font_score = graphics::Font::new(ctx, "/game_over.ttf", 20).unwrap();
             let score_text = graphics::Text::new(ctx, &scores, &font_score)?;
-            let horizontal3:f32 = WIN_W as f32 / 2.0 - score_text.width() as f32 / 2.0;
-            let vertical3:f32 = vertical2 + SQUARE_SIZE;
+            let horizontal3: f32 = WIN_W as f32 / 2.0 - score_text.width() as f32 / 2.0;
+            let vertical3: f32 = vertical2 + SQUARE_SIZE;
             let dest_point = graphics::Point2::new(horizontal3, vertical3);
             graphics::draw(ctx, &score_text, dest_point, 0.0)?;
 
@@ -139,17 +152,19 @@ impl event::EventHandler for MainState {
                 let horizontal_small_crab: f32 = horizontal2 - 30.0;
                 let dest_point = graphics::Point2::new(horizontal_small_crab, vertical2 + 10.0);
                 graphics::draw(ctx, &image_small_crab, dest_point, 0.0)?;
-            }
-            else if self.selection == 1 {
+            } else if self.selection == 1 {
                 let image_small_crab = graphics::Image::new(ctx, "/tiny_crab.png")?;
                 let horizontal_small_crab: f32 = horizontal3 - 30.0;
                 let dest_point = graphics::Point2::new(horizontal_small_crab, vertical3 + 10.0);
                 graphics::draw(ctx, &image_small_crab, dest_point, 0.0)?;
             }
+        } else {
 
-        }
+            //Draw background
+            self.road.draw(ctx)?;
+            self.river.draw(ctx)?;
+            // self.cubbie.draw(ctx)?;
 
-        else {
             //Draw our lanes
             for lane in &mut self.lanes {
                 lane.draw_vehicles_in_lane(ctx)?;
@@ -205,8 +220,9 @@ pub fn main() {
     c.window_setup.title 	= "C R A B B E R".to_string();
 	c.window_mode.width 	= WIN_W;
     c.window_mode.height 	= WIN_H;
-    let ctx 				= &mut Context::load_from_conf("super_simple", "ggez", c).unwrap();
+    let ctx                 = &mut Context::load_from_conf("crabber", "ggez", c).unwrap();
     let state 				= &mut MainState::new(ctx).unwrap();
+    set_background_color(ctx, GRASS);
     event::run(ctx, state).unwrap();
 }
   
