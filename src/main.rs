@@ -25,7 +25,6 @@ use constants::START;
 use constants::GRASS;
 
 use constants::LANE_MODIFIER;
-use constants::NUM_OF_LANES;
 use characters::Crab;
 use ggez::event::{Keycode, Mod};
 use ggez::{GameResult, Context};

@@ -32,8 +32,11 @@ pub const RIVER: Color = Color{r: 0.3, g: 0.3, b: 1.0, a: 1.0};
 //Traffic nums
 pub const LANE_MODIFIER: f32 = WIN_H as f32/ (WIN_H as f32 / 2.0) + 1.0;
 pub const MAX_NUM_OF_CARS: u32 = WIN_W / 100;
+pub const MAX_NUM_OF_TRUCKS: u32 = (MAX_NUM_OF_CARS / 2) + 1;
 pub const MAX_SPEED_OF_CARS: f32 = WIN_W as f32 / (WIN_W as f32 / 2.0);
 pub const MIN_DELAY: f32 = WIN_W as f32/ (WIN_W as f32/ 100.0);
 pub const MAX_DELAY: f32 = MIN_DELAY + (SQUARE_SIZE * 3.0);
 pub const NUM_OF_LANES: u32 = 5; //This can change based on difficulty/level
+pub const CAR_W: f32 =  SQUARE_SIZE * 2.0;
+pub const TRUCK_W: f32 = SQUARE_SIZE * 4.0;
 
