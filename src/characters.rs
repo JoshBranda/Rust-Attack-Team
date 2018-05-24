@@ -58,14 +58,12 @@ impl Crab {
         if self.form.x + SQUARE_SIZE - 1.0 < self.win_w - SQUARE_SIZE {
             self.form.x += SQUARE_SIZE;
         }
-        self.add_to_score(20);
     }
 
     pub fn move_left(&mut self) {
         if self.form.x - SQUARE_SIZE + 1.0 > 0.0 {
             self.form.x -= SQUARE_SIZE;
         }
-        self.lose_life();
     }
 
     pub fn lose_life(&mut self) {
