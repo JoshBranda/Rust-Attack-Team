@@ -7,9 +7,10 @@ for license terms.
 extern crate ggez;
 
 use constants::SQUARE_SIZE;
+use constants::MID_COL;
 use sprites::Rectangle;
 use ggez::{GameResult, Context};
-use ggez::graphics::{Color};
+use ggez::graphics::WHITE;
 
 pub struct Crab {
     form: Rectangle,
@@ -21,14 +22,14 @@ impl Crab {
     pub fn new(w: u32, h: u32) -> Crab {
         Crab {
             form: Rectangle::construct(
-                5.0 * SQUARE_SIZE,
+                MID_COL as f32 * SQUARE_SIZE,
                 h as f32 - 1.0 * SQUARE_SIZE,
                 SQUARE_SIZE,
                 SQUARE_SIZE,
-                Color::new(0.0, 1.0, 0.0, 1.0),
+                WHITE,
             ),
             win_w: w as f32,
-            win_h: h as f32
+            win_h: h as f32  
         }
     }
 
