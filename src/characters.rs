@@ -7,32 +7,33 @@ for license terms.
 extern crate ggez;
 
 use constants::{SQUARE_SIZE, LIVES, WIN_H, WIN_W};
-use sprites::Rectangle;
+use sprites::{Rectangle, Crab_Sprite};
 use ggez::{GameResult, Context};
 use ggez::graphics::{Color};
 
 pub struct Crab {
-    form: Rectangle,
+    form: Crab_Sprite,
     win_w: f32,
     win_h: f32,
     lives: i32,
-    life_lost: bool
+    life_lost: bool,
+    score: isize
 }
 
 impl Crab {
     pub fn new(w: u32, h: u32) -> Crab {
         Crab {
-            form: Rectangle::construct(
+            form: Crab_Sprite::construct(
                 w as f32 / 2.0,
                 h as f32 - 1.0 * SQUARE_SIZE,
                 SQUARE_SIZE,
-                SQUARE_SIZE,
-                Color::new(0.0, 1.0, 0.0, 1.0),
+                SQUARE_SIZE
             ),
             win_w: WIN_W as f32,
             win_h: WIN_H as f32,
             lives: LIVES,
-            life_lost: false
+            life_lost: false,
+            score: 0
         }
     }
 
@@ -57,6 +58,7 @@ impl Crab {
         if self.form.x + SQUARE_SIZE - 1.0 < self.win_w - SQUARE_SIZE {
             self.form.x += SQUARE_SIZE;
         }
+        self.add_to_score(20);
     }
 
     pub fn move_left(&mut self) {
@@ -69,6 +71,7 @@ impl Crab {
     pub fn lose_life(&mut self) {
         self.lives = self.lives - 1;
         self.life_lost = true;
+        self.reset_score();
     }
 
     pub fn get_life_lost(&mut self) -> bool {
@@ -93,6 +96,18 @@ impl Crab {
 
     pub fn restart_y(&mut self) {
         self.form.y = self.win_h - 1.0 * SQUARE_SIZE;
+    }
+
+    pub fn get_score(&mut self) -> isize {
+        return self.score;
+    }
+
+    pub fn add_to_score(&mut self, to_add: isize) {
+        self.score += to_add;
+    }
+
+    pub fn reset_score(&mut self) {
+        self.score = 0;
     }
 
 }
