@@ -42,6 +42,22 @@ impl Crab {
         Ok(())
     }
 
+    pub fn get_left_edge(&mut self) -> f32 {
+        return self.form.x;
+    }
+
+    pub fn get_right_edge(&mut self) -> f32 {
+        return self.form.x + self.form.w;
+    }
+
+    pub fn get_bottom_edge(&mut self) -> f32 {
+        return self.form.y;
+    }
+
+    pub fn get_top_edge(&mut self) -> f32 {
+        return self.form.y - self.form.h;
+    }
+
     pub fn move_up(&mut self) {
         if self.form.y - SQUARE_SIZE + 1.0 > 0.0 {
             self.form.y -= SQUARE_SIZE;

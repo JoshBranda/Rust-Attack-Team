@@ -71,6 +71,30 @@ impl event::EventHandler for MainState {
             self.lane_modifier += 1.0;  
         }
 
+        // Check for collisions with vehicles
+        'outer: for i in 0..self.lanes.len() {
+            for j in 0..self.lanes[i].vehicles.len() {
+                if self.player.get_left_edge() >= self.lanes[i].vehicles[j].get_right_edge() {
+                    continue;
+                }
+
+                if self.player.get_right_edge() <= self.lanes[i].vehicles[j].get_left_edge() {
+                    continue;
+                }
+
+                if self.player.get_bottom_edge() <= self.lanes[i].vehicles[j].get_top_edge() {
+                    continue;
+                }
+
+                if self.player.get_top_edge() >= self.lanes[i].vehicles[j].get_bottom_edge() {
+                    continue;
+                }
+
+                self.player.lose_life();
+                break 'outer;
+            }
+        }
+
         //Update lanes
         for lane in &mut self.lanes {
             lane.update_vehicles_in_lane();
