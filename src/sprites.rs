@@ -10,16 +10,16 @@ extern crate ggez;
 use ggez::{GameResult, Context};
 use ggez::graphics::{self, set_color, Color, DrawMode};
 
-pub struct Crab_Sprite {
+pub struct CrabSprite {
     pub x: f32,
     pub y: f32,
     pub w: f32,
     pub h: f32
 }
 
-impl Crab_Sprite {
-    pub fn construct(x: f32, y: f32, w: f32, h: f32) -> Crab_Sprite {
-        Crab_Sprite {
+impl CrabSprite {
+    pub fn construct(x: f32, y: f32, w: f32, h: f32) -> CrabSprite {
+        CrabSprite {
             x: x,
             y: y,
             w: w,
