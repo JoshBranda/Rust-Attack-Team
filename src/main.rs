@@ -132,7 +132,7 @@ impl event::EventHandler for MainState {
 
         if self.main_menu {
             let mut draw_main = Menu{};
-            draw_main.draw(ctx, self.selection);
+            draw_main.draw(ctx, self.selection)?;
 
         } else {
 
