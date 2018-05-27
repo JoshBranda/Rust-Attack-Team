@@ -14,7 +14,7 @@ pub mod constants;
 pub mod sprites;
 pub mod traffic;
 
-use background::{Road, River};
+use background::{Road, River, Menu};
 // use background::Cubbie;
 
 use constants::{WIN_W, WIN_H, SQUARE_SIZE, NUM_LANE, START, GRASS};
@@ -131,8 +131,8 @@ impl event::EventHandler for MainState {
         graphics::clear(ctx);
 
         if self.main_menu {
-            let mut menu_graphics = Menu{};
-            menu_graphics.draw(ctx, menu_graphics);
+            let mut draw_main = Menu{};
+            draw_main.draw(ctx, self.selection);
 
         } else {
 
