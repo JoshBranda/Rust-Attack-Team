@@ -26,7 +26,8 @@ use constants::{
     LANE_MODIFIER,
     RIVER_LANE_MODIFIER,
     START,
-    GRASS};
+    GRASS,
+    END};
 
 use characters::Crab;
 use ggez::event::{Keycode, Mod};
@@ -41,7 +42,6 @@ struct MainState {
     road: Road,
     river: River,
     cubbies: Cubbies,
-    // cubbie: Cubbie,
     player: Crab,
     lanes: Vec<traffic::Lane>,
     lane_modifier: f32,
@@ -61,7 +61,6 @@ impl MainState {
         let s = MainState { 
             road: Road::new(WIN_W, WIN_H),
             river: River::new(WIN_W, WIN_H),
-            // cubbie: Cubbie::new(50.0),
             cubbies: Cubbies::construct(),
             player: Crab::new(WIN_W, START as u32),
             lanes: lanes,
@@ -84,6 +83,35 @@ impl event::EventHandler for MainState {
         if (self.lanes.len() as u32) < NUM_LANE {
             self.lanes.push(traffic::Lane::construct(self.lane_modifier));    
             self.lane_modifier += 1.0;  
+        }
+
+        // Check for collisions with vehicles
+        'outer: for i in 0..self.lanes.len() {
+            for j in 0..self.lanes[i].vehicles.len() {
+                if self.player.get_left_edge() >= self.lanes[i].vehicles[j].get_right_edge() {
+                    continue;
+                }
+
+                if self.player.get_right_edge() <= self.lanes[i].vehicles[j].get_left_edge() {
+                    continue;
+                }
+
+                if self.player.get_bottom_edge() <= self.lanes[i].vehicles[j].get_top_edge() {
+                    continue;
+                }
+
+                if self.player.get_top_edge() >= self.lanes[i].vehicles[j].get_bottom_edge() {
+                    continue;
+                }
+
+                self.player.lose_life();
+                break 'outer;
+            }
+        }
+
+        // Check for collisions with cubbies
+        if self.player.get_bottom_edge() < END && self.player.get_left_edge() % 100.0 < 50.0 {
+            self.player.lose_life();
         }
 
         //Update lanes
@@ -133,9 +161,8 @@ impl event::EventHandler for MainState {
         graphics::clear(ctx);
 
         if self.main_menu {
-
             let mut draw_main = Menu{};
-            draw_main.draw(ctx, self.selection);
+            draw_main.draw(ctx, self.selection)?;
 
         } else {
 

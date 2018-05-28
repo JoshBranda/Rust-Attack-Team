@@ -115,7 +115,7 @@ impl Cubbies {
 }
 
 impl Menu {
-    pub fn draw(&mut self, ctx: &mut Context, selection: u32) -> GameResult<()>{
+    pub fn draw(&mut self, ctx: &mut Context, selection: u32) -> GameResult<()> {
         //Draw Crabber name upper-middle
         let game_name = format! {"CRABBER"};
         let font = graphics::Font::new(ctx, "/game_over.ttf", 56).unwrap();
