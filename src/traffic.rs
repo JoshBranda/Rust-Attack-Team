@@ -83,10 +83,26 @@ impl Vehicle {
             self.form.x = self.form.x - self.speed;
         }
     }
+
+    pub fn get_left_edge(&mut self) -> f32 {
+        return self.form.x;
+    }
+
+    pub fn get_right_edge(&mut self) -> f32 {
+        return self.form.x + self.form.w;
+    }
+
+    pub fn get_bottom_edge(&mut self) -> f32 {
+        return self.form.y;
+    }
+
+    pub fn get_top_edge(&mut self) -> f32 {
+        return self.form.y - self.form.h;
+    }
 }
 
 pub struct Lane {
-    vehicles: Vec<Vehicle>
+    pub vehicles: Vec<Vehicle>
 }
 
 impl Lane {

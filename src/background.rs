@@ -6,11 +6,10 @@ for license terms.
 */
 extern crate ggez;
 
-use constants::{SQUARE_SIZE, MID_ROW, NUM_ROW, NUM_LANE, NUM_LOG, ROAD, RIVER, WIN_H, WIN_W};
+use constants::{SQUARE_SIZE, MID_ROW, NUM_ROW, NUM_LANE, NUM_LOG, ROAD, RIVER, WIN_W, WIN_H};
 use sprites::Rectangle;
 use ggez::{GameResult, Context};
 use ggez::graphics::{self};
-use ggez::graphics::set_background_color;
 
 
 pub struct Road {
@@ -68,7 +67,7 @@ impl River {
 }
 
 impl Menu {
-    pub fn draw(&mut self, ctx: &mut Context, selection: u32) -> GameResult<()>{
+    pub fn draw(&mut self, ctx: &mut Context, selection: u32) -> GameResult<()> {
         //Draw Crabber name upper-middle
         let game_name = format! {"CRABBER"};
         let font = graphics::Font::new(ctx, "/game_over.ttf", 56).unwrap();
