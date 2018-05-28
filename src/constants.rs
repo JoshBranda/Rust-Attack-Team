@@ -26,7 +26,7 @@ pub const NUM_LOG: u32 	= NUM_ROW - MID_ROW - 3;			// Number of log lanes
 pub const CUB_NUM: u32  = (NUM_COL / 2 - 1) / 2;			// Number of cubbies
 
 // Colors
-pub const GRASS: Color  = Color{r: 0.0, g: 0.7, b: 0.23, a: 1.0};
+pub const GRASS: Color 	= Color{r: 0.0, g: 0.7, b: 0.23, a: 1.0};
 pub const ROAD: Color 	= Color{r: 0.1, g: 0.2, b: 0.3, a: 1.0};
 pub const RIVER: Color 	= Color{r: 0.3, g: 0.3, b: 1.0, a: 1.0};
 pub const LOG: Color 	= Color{r: 0.6, g: 0.3, b: 0.1, a: 1.0};
