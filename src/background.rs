@@ -6,11 +6,10 @@ for license terms.
 */
 extern crate ggez;
 
-use constants::{SQUARE_SIZE, MID_ROW, NUM_ROW, NUM_LANE, NUM_LOG, ROAD, RIVER, WIN_H, WIN_W};
+use constants::{SQUARE_SIZE, MID_ROW, NUM_ROW, NUM_LANE, NUM_LOG, ROAD, RIVER, WIN_H, WIN_W, END, CUB_NUM};
 use sprites::Rectangle;
 use ggez::{GameResult, Context};
 use ggez::graphics::{self};
-use ggez::graphics::set_background_color;
 
 
 pub struct Road {
@@ -21,13 +20,17 @@ pub struct River {
     form: Rectangle
 }
 
-pub struct Menu {
+pub struct Cubbie {
+    form: Rectangle,
+    is_occupied: bool
 }
 
-// pub struct Cubbie {
-//     form: Rectangle
-// }
+pub struct Cubbies {
+    cubbies: Vec<Cubbie>
+}
 
+pub struct Menu {
+}
 
 impl Road {
     pub fn new(w: u32, h: u32) -> Road {
@@ -55,7 +58,7 @@ impl River {
                 0.0,
                 h as f32 - (NUM_ROW as f32 - 3.0) * SQUARE_SIZE,
                 w as f32,
-                NUM_LOG as f32 * SQUARE_SIZE + 1.0,
+                NUM_LOG as f32 * SQUARE_SIZE,
                 RIVER,
             ),
         }
@@ -63,6 +66,50 @@ impl River {
 
     pub fn draw(&mut self, ctx: &mut Context) -> GameResult<()> {
         self.form.draw(ctx)?;
+        Ok(())
+    }
+}
+
+impl Cubbie {
+    pub fn new(x: f32) -> Cubbie {
+        Cubbie {
+            form: Rectangle::construct(
+                x,
+                END - 2.0 * SQUARE_SIZE,
+                2.0 * SQUARE_SIZE,
+                2.0 * SQUARE_SIZE,
+                RIVER,
+            ),
+            is_occupied: false
+        }
+    }
+
+    pub fn draw(&mut self, ctx: &mut Context) -> GameResult<()> {
+        self.form.draw(ctx)?;
+        Ok(())
+    }
+}
+
+impl Cubbies {
+    pub fn construct() -> Cubbies {
+        Cubbies {
+            cubbies: Cubbies::create_cubbies()
+        }
+    }
+
+    fn create_cubbies() -> Vec<Cubbie>{
+        let mut cubbies = vec![];
+        for i in 0..CUB_NUM {
+            let x = i as f32 * (4.0 * SQUARE_SIZE) + 2.0 * SQUARE_SIZE; 
+            cubbies.push(Cubbie::new(x))
+        }
+        cubbies
+    }
+    pub fn draw(&mut self, ctx: &mut Context) -> GameResult<()> {
+        for cubbie in &mut self.cubbies {
+            cubbie.draw(ctx)?;
+        }
+
         Ok(())
     }
 }

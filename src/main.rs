@@ -15,8 +15,7 @@ pub mod sprites;
 pub mod traffic;
 pub mod river;
 
-use background::{Road, River, Menu};
-// use background::Cubbie;
+use background::{Road, River, Cubbies, Menu};
 
 use constants::{ 
     WIN_W, 
@@ -41,6 +40,7 @@ use std::time::Duration;
 struct MainState {
     road: Road,
     river: River,
+    cubbies: Cubbies,
     // cubbie: Cubbie,
     player: Crab,
     lanes: Vec<traffic::Lane>,
@@ -61,8 +61,9 @@ impl MainState {
         let s = MainState { 
             road: Road::new(WIN_W, WIN_H),
             river: River::new(WIN_W, WIN_H),
-            // cubbie: Cubbie::new(WIN_W, WIN_H),
-            player: Crab::new(WIN_W, START),
+            // cubbie: Cubbie::new(50.0),
+            cubbies: Cubbies::construct(),
+            player: Crab::new(WIN_W, START as u32),
             lanes: lanes,
             lane_modifier: LANE_MODIFIER,
             river_lanes: river_lanes,
@@ -141,7 +142,7 @@ impl event::EventHandler for MainState {
             //Draw background
             self.road.draw(ctx)?;
             self.river.draw(ctx)?;
-            // self.cubbie.draw(ctx)?;
+            self.cubbies.draw(ctx)?;
 
             //Draw our lanes
             for lane in &mut self.lanes {
