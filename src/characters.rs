@@ -6,7 +6,9 @@ for license terms.
 */
 extern crate ggez;
 
+
 use constants::{SQUARE_SIZE, LIVES, WIN_H, WIN_W};
+use background::{Cubbies};
 use sprites::{CrabSprite};
 use ggez::{GameResult, Context};
 
@@ -84,7 +86,7 @@ impl Crab {
     pub fn lose_life(&mut self) {
         self.lives = self.lives - 1;
         self.life_lost = true;
-        self.reset_score();
+        // self.reset_score();
     }
 
     pub fn get_life_lost(&mut self) -> bool {
@@ -119,9 +121,9 @@ impl Crab {
         self.score += to_add;
     }
 
-    pub fn reset_score(&mut self) {
-        self.score = 0;
-    }
+    // pub fn reset_score(&mut self) {
+    //     self.score = 0;
+    // }
 
 }
 

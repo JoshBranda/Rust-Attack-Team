@@ -110,8 +110,24 @@ impl event::EventHandler for MainState {
         }
 
         // Check for collisions with cubbies
-        if self.player.get_bottom_edge() < END && self.player.get_left_edge() % 100.0 < 50.0 {
+        if self.player.get_bottom_edge() < END && self.player.get_left_edge() % (SQUARE_SIZE * 4.0) < SQUARE_SIZE * 2.0 {
             self.player.lose_life();
+        }
+
+
+        // Check for occupied cubbie
+        if self.player.get_bottom_edge() < END && self.player.get_left_edge() % (SQUARE_SIZE * 4.0) >= SQUARE_SIZE * 2.0 {
+            let i = (self.player.get_left_edge() / (SQUARE_SIZE * 4.0)) as usize;
+            if self.cubbies.get_is_occupied(i) == false {
+                // Get points for it
+                self.player.add_to_score(500);
+                // Set occupied flag to true
+                self.cubbies.set_is_occupied(i);
+                // Reset board
+                timer::sleep(Duration::from_secs(1));
+                self.player.restart_x();
+                self.player.restart_y();
+            }
         }
 
         //Update lanes
@@ -137,7 +153,7 @@ impl event::EventHandler for MainState {
             //Clear screen, optional
             graphics::clear(_ctx);
 
-            //Gamve over has a scalable center, text should always be in center regardless of dimensions
+            //Game over has a scalable center, text should always be in center regardless of dimensions
             let center:f32 = WIN_W as f32 / 2.0 - *&self.game_over_man.width() as f32 / 2.0;
 
             let dest_point = graphics::Point2::new(center, WIN_H as f32 / 2.0);
@@ -170,6 +186,8 @@ impl event::EventHandler for MainState {
             self.road.draw(ctx)?;
             self.river.draw(ctx)?;
             self.cubbies.draw(ctx)?;
+            // self.cubbies.draw_cubbie_crab(ctx);
+
 
             //Draw our lanes
             for lane in &mut self.lanes {
