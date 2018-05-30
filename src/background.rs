@@ -4,13 +4,24 @@ This work is available under the "MIT License”.
 Please see the file LICENSE in this distribution
 for license terms.
 */
-extern crate ggez;
 
-use sprites::Rectangle;
-use constants::{SQUARE_SIZE, MID_ROW, NUM_ROW, NUM_LANE, NUM_LOG, ROAD, RIVER, WIN_H, WIN_W, END, CUB_NUM};
+use constants::{
+    CUB_NUM,
+    END,
+    MID_ROW, 
+    NUM_ROW, 
+    NUM_LANE, 
+    NUM_LOG, 
+    ROAD, 
+    RIVER, 
+    SQUARE_SIZE, 
+    WIN_H, 
+    WIN_W  
+    };
+
 use ggez::{GameResult, Context};
 use ggez::graphics::{self};
-
+use sprites::Rectangle;
 
 pub struct Road {
     form: Rectangle

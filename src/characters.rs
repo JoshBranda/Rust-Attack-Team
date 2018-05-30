@@ -4,12 +4,17 @@ This work is available under the "MIT License”.
 Please see the file LICENSE in this distribution
 for license terms.
 */
-extern crate ggez;
 
+use constants::{
+    END,
+    LIVES,
+    SQUARE_SIZE, 
+    WIN_H, 
+    WIN_W
+    };
 
-use constants::{SQUARE_SIZE, LIVES, WIN_H, WIN_W, END};
+use ggez::{GameResult, Context};    
 use sprites::{CrabSprite};
-use ggez::{GameResult, Context};
 
 pub struct Crab {
     form: CrabSprite,

@@ -13,23 +13,20 @@ pub mod characters;
 pub mod constants;
 pub mod sprites;
 pub mod traffic;
-pub mod river;
 
 use background::{Road, River, Cubbies, Menu};
-
-use constants::{ 
-    WIN_W, 
-    WIN_H, 
-    SQUARE_SIZE, 
-    NUM_LANE, 
-    NUM_LOG,
-    LANE_MODIFIER,
-    RIVER_LANE_MODIFIER,
-    START,
-    GRASS,
-    END};
-
 use characters::Crab;
+
+use constants::{
+    END,
+    GRASS,
+    LANE_MODIFIER,
+    NUM_LANE,
+    SQUARE_SIZE,
+    START,
+    WIN_H,
+    WIN_W };
+
 use ggez::event::{Keycode, Mod};
 use ggez::{GameResult, Context};
 use ggez::graphics::{self};
@@ -45,8 +42,6 @@ struct MainState {
     player: Crab,
     lanes: Vec<traffic::Lane>,
     lane_modifier: f32,
-    river_lanes: Vec<river::RiverLane>,
-    river_lane_modifier: f32,
     game_over_man: graphics::Text,
     main_menu: bool,
     selection: u32
@@ -57,7 +52,6 @@ impl MainState {
         let font = graphics::Font::new(_ctx, "/game_over.ttf", 48).unwrap();
         let text = graphics::Text::new(_ctx, "Game Over Man!", &font)?;
         let lanes = vec![];
-        let river_lanes = vec![];
         let s = MainState { 
             road: Road::new(WIN_W, WIN_H),
             river: River::new(WIN_W, WIN_H),
@@ -65,8 +59,6 @@ impl MainState {
             player: Crab::new(WIN_W, START as u32),
             lanes: lanes,
             lane_modifier: LANE_MODIFIER,
-            river_lanes: river_lanes,
-            river_lane_modifier: RIVER_LANE_MODIFIER,
             game_over_man: text,
             main_menu: true,
             selection: 0
@@ -138,17 +130,6 @@ impl event::EventHandler for MainState {
             lane.update_vehicles_in_lane();
         }
 
-        //Create new river lanes
-        if (self.river_lanes.len() as u32) < NUM_LOG {
-            self.river_lanes.push(river::RiverLane::construct(self.river_lane_modifier));    
-            self.river_lane_modifier += 1.0;  
-        }
-
-        //Update river lanes
-        for river_lane in &mut self.river_lanes {
-            river_lane.update_river_obstacles_in_river_lane();
-        }
-
         //Check for game over
         if self.player.get_lives() <= 0 {
             self.player.set_lives();
@@ -189,17 +170,10 @@ impl event::EventHandler for MainState {
             self.road.draw(ctx)?;
             self.river.draw(ctx)?;
             self.cubbies.draw(ctx)?;
-            // self.cubbies.draw_sprite(ctx);
-
 
             //Draw our lanes
             for lane in &mut self.lanes {
                 lane.draw_vehicles_in_lane(ctx)?;
-            }
-
-            //Draw our river lanes
-            for river_lane in &mut self.river_lanes {
-                river_lane.draw_river_obstacles_in_river_lane(ctx)?;
             }
 
             self.player.draw(ctx)?;

@@ -5,8 +5,6 @@ Please see the file LICENSE in this distribution
 for license terms.
 */
 
-extern crate ggez;
-
 use ggez::{GameResult, Context};
 use ggez::graphics::{self, set_color, Color, DrawMode};
 

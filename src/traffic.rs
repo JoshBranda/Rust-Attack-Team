@@ -5,21 +5,22 @@ Please see the file LICENSE in this distribution
 for license terms.
 */
 
+use constants::{
+    CAR_W,
+    MAX_NUM_OF_CARS,
+    MAX_NUM_OF_TRUCKS,
+    MAX_SPEED_OF_CARS,
+    MIN_DELAY,
+    MAX_DELAY,
+    SQUARE_SIZE,
+    TRUCK_W, 
+    WIN_H,
+    WIN_W };
+
 use ggez::{GameResult, Context};
 use ggez::graphics::{Color};
 use rand::{Rng, thread_rng};
 use sprites::Rectangle;
-use constants::{
-    WIN_W, 
-    WIN_H, 
-    SQUARE_SIZE, 
-    MAX_NUM_OF_CARS, 
-    MAX_NUM_OF_TRUCKS, 
-    MAX_SPEED_OF_OBSTACLES, 
-    MIN_DELAY, 
-    MAX_DELAY,
-    CAR_W,
-    TRUCK_W };
 
 //We can also make trucks & bikes/motorcycles
 pub struct Vehicle {
@@ -167,7 +168,7 @@ impl Lane {
     fn generate_speed() -> f32 {
         let mut rng = thread_rng();
 
-        rng.gen_range(0.5_f32, MAX_SPEED_OF_OBSTACLES)
+        rng.gen_range(0.5_f32, MAX_SPEED_OF_CARS)
     }
 
     fn generate_car_delay(num_of_vehicles: u32) -> f32 {
