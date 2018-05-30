@@ -1,6 +1,6 @@
 # Rust-Attack-Team presents:
-# Crabber
-## The Rust equivalent of Frogger
+# Crabber (The Rust equivalent of Frogger)
+
 
 ## Licensing with author info:
 [![License: MIT](https://img.shields.io/github/license/mashape/apistatus.svg)](LICENSE)
