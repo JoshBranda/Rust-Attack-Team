@@ -2,7 +2,7 @@
 # Crabber
 ## The Rust equivalent of Frogger
 
-## Licensing info:
+## Licensing with author info:
 [![License: MIT](https://img.shields.io/github/license/mashape/apistatus.svg)](LICENSE)
 
 Our game, titled "Crabber", is very similar to Frogger.
@@ -48,3 +48,6 @@ A run down of our stretch goals for future completion:
 * Online play option
 * Multi-player option
 
+## ggez
+
+There are two common game building libraries for Rust: ggez and piston.  We chose piston.  We relied heavily on the ggez library.  We also looked at several example games available on the ggez github page for ideas on how to structure our code: https://github.com/ggez/ggez
