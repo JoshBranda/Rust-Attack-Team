@@ -27,12 +27,21 @@ impl CrabSprite {
         }
     }
 
-    pub fn draw(&mut self, ctx: &mut Context, ) -> GameResult<()> {
+    pub fn draw_player(&mut self, ctx: &mut Context, ) -> GameResult<()> {
         let image_small_crab = graphics::Image::new(ctx, "/tiny_crab.png")?;
         let dest_point = graphics::Point2::new(self.x, self.y);
         graphics::draw(ctx, &image_small_crab, dest_point, 0.0)?;
 
         Ok(())
+    }
+
+    pub fn draw_cubbie_crab(&mut self, ctx: &mut Context) -> GameResult<()> {
+        let image_cubbie_crab = graphics::Image::new(ctx, "/cubbie_crab.png")?;
+        let dest_point = graphics::Point2::new(self.x, self.y);
+        graphics::draw(ctx, &image_cubbie_crab, dest_point, 0.0)?;
+        
+        Ok(())
+
     }
 }
 

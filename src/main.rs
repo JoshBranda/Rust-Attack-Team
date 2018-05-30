@@ -128,6 +128,9 @@ impl event::EventHandler for MainState {
                 self.player.restart_x();
                 self.player.restart_y();
             }
+            else {
+                self.player.occupied_cubbie_override();
+            }
         }
 
         //Update lanes
@@ -186,7 +189,7 @@ impl event::EventHandler for MainState {
             self.road.draw(ctx)?;
             self.river.draw(ctx)?;
             self.cubbies.draw(ctx)?;
-            // self.cubbies.draw_cubbie_crab(ctx);
+            // self.cubbies.draw_sprite(ctx);
 
 
             //Draw our lanes

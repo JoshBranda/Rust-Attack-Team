@@ -6,8 +6,8 @@ for license terms.
 */
 extern crate ggez;
 
+use sprites::Rectangle;
 use constants::{SQUARE_SIZE, MID_ROW, NUM_ROW, NUM_LANE, NUM_LOG, ROAD, RIVER, WIN_H, WIN_W, END, CUB_NUM};
-use sprites::{Rectangle, CrabSprite};
 use ggez::{GameResult, Context};
 use ggez::graphics::{self};
 
@@ -29,9 +29,6 @@ pub struct Cubbies {
     cubbies: Vec<Cubbie>
 }
 
-// pub struct CubbieCrab {
-//     form: CrabSprite
-// }
 
 pub struct Menu {
 }
@@ -126,20 +123,6 @@ impl Cubbies {
         self.cubbies[i].is_occupied = true;
         ()    
     }
-
-    // pub fn draw_cubbie_crab(&mut self, ctx: &mut Context) -> GameResult<()> {
-    //     for cubbie in &mut self.cubbies {
-    //         if cubbie.is_occupied == true {
-    //              let image_cubbie_crab = graphics::Image::new(ctx, "/cubbie_crab.png")?;
-    //              let horizontal: f32 = cubbie.form.x;
-    //              let vertical: f32 = cubbie.form.y;
-    //              let dest_point = graphics::Point2::new(horizontal, vertical);
-    //              graphics::draw(ctx, &image_cubbie_crab, dest_point, 0.0)?;
-    //         }
-    //     }
-    // Ok(())
-
-    // }
 }
 
 impl Menu {
