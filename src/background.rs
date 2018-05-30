@@ -110,8 +110,12 @@ impl Cubbies {
     pub fn draw(&mut self, ctx: &mut Context) -> GameResult<()> {
         for cubbie in &mut self.cubbies {
             cubbie.draw(ctx)?;
+            if cubbie.is_occupied == true {
+                let image_cubbie_crab = graphics::Image::new(ctx, "/tiny_crab.png")?;
+                let dest_point = graphics::Point2::new(cubbie.form.x + SQUARE_SIZE / 2.0, cubbie.form.y + SQUARE_SIZE / 2.0);
+                graphics::draw(ctx, &image_cubbie_crab, dest_point, 0.0)?;
+            }
         }
-
         Ok(())
     }
 
@@ -119,10 +123,11 @@ impl Cubbies {
         self.cubbies[i].is_occupied
     }
 
-    pub fn set_is_occupied(&mut self, i: usize) -> () {
+    pub fn set_is_occupied(&mut self, i: usize) {
         self.cubbies[i].is_occupied = true;
-        ()    
     }
+
+
 }
 
 impl Menu {
