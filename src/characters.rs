@@ -8,7 +8,6 @@ extern crate ggez;
 
 
 use constants::{SQUARE_SIZE, LIVES, WIN_H, WIN_W, END};
-// use background::{Cubbies};
 use sprites::{CrabSprite};
 use ggez::{GameResult, Context};
 
@@ -39,7 +38,7 @@ impl Crab {
     }
 
     pub fn draw(&mut self, ctx: &mut Context) -> GameResult<()> {
-        self.form.draw_player(ctx)?;
+        self.form.draw(ctx)?;
         Ok(())
     }
 
