@@ -50,4 +50,4 @@ A run down of our stretch goals for future completion:
 
 ## ggez
 
-There are two common game building libraries for Rust: ggez and piston.  We chose piston.  We relied heavily on the ggez library.  We also looked at several example games available on the ggez github page for ideas on how to structure our code: https://github.com/ggez/ggez
+There are two common game building libraries for Rust: ggez and piston.  We chose ggez.  We relied heavily on the ggez library.  We also looked at several example games available on the ggez github page for ideas on how to structure our code: https://github.com/ggez/ggez
