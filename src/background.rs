@@ -40,7 +40,6 @@ pub struct Cubbies {
     cubbies: Vec<Cubbie>
 }
 
-
 pub struct Menu {
 }
 
@@ -137,8 +136,6 @@ impl Cubbies {
     pub fn set_is_occupied(&mut self, i: usize) {
         self.cubbies[i].is_occupied = true;
     }
-
-
 }
 
 impl Menu {
@@ -193,4 +190,3 @@ impl Menu {
         Ok(())
     }
 }
-

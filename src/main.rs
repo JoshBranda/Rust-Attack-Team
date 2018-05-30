@@ -106,7 +106,6 @@ impl event::EventHandler for MainState {
             self.player.lose_life();
         }
 
-
         // Check for occupied cubbie
         if self.player.get_bottom_edge() < END && self.player.get_left_edge() % (SQUARE_SIZE * 4.0) >= SQUARE_SIZE * 2.0 {
             let i = (self.player.get_left_edge() / (SQUARE_SIZE * 4.0)) as usize;
@@ -216,9 +215,7 @@ impl event::EventHandler for MainState {
                 _ => {}
             }
         }
-
     }
-
 }
 
 pub fn main() {

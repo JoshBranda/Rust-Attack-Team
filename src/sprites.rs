@@ -74,5 +74,4 @@ impl Rectangle {
         //This is the Gameresult type returned if there was not an error
         Ok(())
     }
-
 }

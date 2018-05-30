@@ -87,7 +87,6 @@ impl Crab {
         }
     }
 
-    // Override for move_up if attempting to ender occupied cubbie
     pub fn occupied_cubbie_override(&mut self) {
         self.form.y = END;
     }

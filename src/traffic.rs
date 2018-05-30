@@ -215,6 +215,4 @@ impl Lane {
             vehicle.update();
         }
     }
-
 }
-  
