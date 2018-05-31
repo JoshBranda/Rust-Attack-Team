@@ -152,8 +152,8 @@ impl RiverLane {
         let mut rng = thread_rng();
 
         match river_obstacle_type{
-            0 => rng.gen_range(0.5_f32, MAX_SPEED_OF_OBSTACLES),
-            _ => rng.gen_range(0.5_f32, MAX_SPEED_OF_OBSTACLES - 0.5)
+            0 => rng.gen_range(0.1_f32, MAX_SPEED_OF_OBSTACLES),
+            _ => rng.gen_range(0.1_f32, MAX_SPEED_OF_OBSTACLES - 1.0)
         }
         
     }
