@@ -17,12 +17,13 @@ pub const WIN_H: u32 	= 400;
 // Game background dimensions
 pub const NUM_ROW: u32 	= WIN_H / SQUARE_SIZE as u32;		// Number of rows starting at index 0
 pub const MID_ROW: u32 	= NUM_ROW / 2;						// Middle row index
-pub const START: u32 	= WIN_H - SQUARE_SIZE as u32;		// Starting position as y coordinate in pixels
-pub const END  : u32 	= WIN_H - SQUARE_SIZE as u32 * 3;	// Ending position as y coordinate in pixels
+pub const START: f32 	= WIN_H as f32 - SQUARE_SIZE;		// Starting position as y coordinate in pixels
+pub const END  : f32 	= SQUARE_SIZE * 3.0;				// Ending position as y coordinate in pixels
 pub const NUM_COL: u32 	= WIN_W / SQUARE_SIZE as u32;		// Number of columns starting at index 0
 pub const MID_COL: u32 	= NUM_COL / 2;						// Middle row index
 pub const NUM_LANE: u32 = MID_ROW - 3;						// Number of lanes of traffic
 pub const NUM_LOG: u32 	= NUM_ROW - MID_ROW - 3;			// Number of log lanes
+pub const CUB_NUM: u32  = (NUM_COL / 2 - 1) / 2;			// Number of cubbies
 
 // Colors
 pub const GRASS: Color = Color{r: 0.0, g: 0.7, b: 0.23, a: 1.0};
@@ -50,4 +51,5 @@ pub const MAX_NUM_OF_LOGS: u32 = (MAX_NUM_OF_CARS / 2) + 1;
 pub const MAX_NUM_OF_TURTLES: u32 = MAX_NUM_OF_CARS - 1;
 pub const LOG_W: f32 = TRUCK_W;
 pub const TURTLE_W: f32 = CAR_W;
+
 

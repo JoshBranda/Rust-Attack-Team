@@ -5,8 +5,6 @@ Please see the file LICENSE in this distribution
 for license terms.
 */
 
-extern crate ggez;
-
 use ggez::{GameResult, Context};
 use ggez::graphics::{self, set_color, Color, DrawMode};
 
@@ -76,5 +74,4 @@ impl Rectangle {
         //This is the Gameresult type returned if there was not an error
         Ok(())
     }
-
 }
