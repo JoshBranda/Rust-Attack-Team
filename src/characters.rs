@@ -17,7 +17,9 @@ pub struct Crab {
     win_h: f32,
     lives: i32,
     life_lost: bool,
-    score: isize
+    score: isize,
+    speed: f32,
+    direction: bool
 }
 
 impl Crab {
@@ -33,7 +35,27 @@ impl Crab {
             win_h: WIN_H as f32,
             lives: LIVES,
             life_lost: false,
-            score: 0
+            score: 0,
+            speed: 0 as f32,
+            direction: false
+        }
+    }
+
+    fn update(&mut self) {
+        if self.direction {
+            if self.get_right_edge() >= WIN_W as f32 + self.speed {
+                self.lose_life();
+            }
+            else {
+                self.form.x = self.form.x + self.speed;
+            }
+        } else{
+            if self.form.x <= 0 as f32 {
+                self.lose_life();
+            }
+            {
+                self.form.x = self.form.x - self.speed;
+            }
         }
     }
 
@@ -123,6 +145,10 @@ impl Crab {
     pub fn reset_score(&mut self) {
         self.score = 0;
     }
+
+    pub fn set_speed(&mut self, new_speed: f32) {self.speed = new_speed; }
+
+    pub fn set_direction(&mut self, new_direction: bool) {self.direction = new_direction; }
 
 }
 

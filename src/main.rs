@@ -24,6 +24,7 @@ use constants::{
     SQUARE_SIZE, 
     NUM_LANE, 
     NUM_LOG,
+    NUM_ROW,
     LANE_MODIFIER,
     RIVER_LANE_MODIFIER,
     START,
@@ -85,27 +86,66 @@ impl event::EventHandler for MainState {
             self.lane_modifier += 1.0;  
         }
 
-        // Check for collisions with vehicles
-        'outer: for i in 0..self.lanes.len() {
-            for j in 0..self.lanes[i].vehicles.len() {
-                if self.player.get_left_edge() >= self.lanes[i].vehicles[j].get_right_edge() {
-                    continue;
-                }
+        // Check for collisions
+        // with water
+        if self.player.get_bottom_edge() >= WIN_H as f32 - (NUM_ROW as f32 - 3.0) * SQUARE_SIZE {
+            let mut collided = true;
 
-                if self.player.get_right_edge() <= self.lanes[i].vehicles[j].get_left_edge() {
-                    continue;
-                }
+            'outer: for i in 0..self.river_lanes.len() {
+                for j in 0..self.river_lanes[i].river_obstacles.len() {
+                    let mut inside = true;
 
-                if self.player.get_bottom_edge() <= self.lanes[i].vehicles[j].get_top_edge() {
-                    continue;
-                }
+                    if self.player.get_right_edge() >= self.river_lanes[i].river_obstacles[j].get_right_edge() {
+                        inside = false;
+                    }
 
-                if self.player.get_top_edge() >= self.lanes[i].vehicles[j].get_bottom_edge() {
-                    continue;
-                }
+                    if self.player.get_left_edge() <= self.river_lanes[i].river_obstacles[j].get_left_edge() {
+                        inside = false;
+                    }
 
+                    if self.player.get_bottom_edge() <= self.river_lanes[i].river_obstacles[j].get_bottom_edge() {
+                        inside = false;
+                    }
+
+                    if self.player.get_top_edge() >= self.river_lanes[i].river_obstacles[j].get_top_edge() {
+                        inside = false;
+                    }
+
+                    if inside == true {
+                        self.player.set_direction(self.river_lanes[i].river_obstacles[j].get_direction());
+                        self.player.set_speed(self.river_lanes[i].river_obstacles[j].get_speed());
+                        collided = false;
+                        break 'outer;
+                    }
+                }
+            }
+            if collided {
                 self.player.lose_life();
-                break 'outer;
+            }
+        }
+            // or with vehicles
+        else {
+            'outer: for i in 0..self.lanes.len() {
+                for j in 0..self.lanes[i].vehicles.len() {
+                    if self.player.get_left_edge() >= self.lanes[i].vehicles[j].get_right_edge() {
+                        continue;
+                    }
+
+                    if self.player.get_right_edge() <= self.lanes[i].vehicles[j].get_left_edge() {
+                        continue;
+                    }
+
+                    if self.player.get_bottom_edge() <= self.lanes[i].vehicles[j].get_top_edge() {
+                        continue;
+                    }
+
+                    if self.player.get_top_edge() >= self.lanes[i].vehicles[j].get_bottom_edge() {
+                        continue;
+                    }
+
+                    self.player.lose_life();
+                    break 'outer;
+                }
             }
         }
 

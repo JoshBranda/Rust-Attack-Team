@@ -76,10 +76,34 @@ impl RiverObstacle {
             self.form.x = self.form.x - self.speed;
         }
     }
+
+    pub fn get_left_edge(&mut self) -> f32 {
+        return self.form.x;
+    }
+
+    pub fn get_right_edge(&mut self) -> f32 {
+        return self.form.x + self.form.w;
+    }
+
+    pub fn get_bottom_edge(&mut self) -> f32 {
+        return self.form.y;
+    }
+
+    pub fn get_top_edge(&mut self) -> f32 {
+        return self.form.y - self.form.h;
+    }
+
+    pub fn get_speed(&mut self) -> f32 {
+        return self.speed;
+    }
+
+    pub fn get_direction(&mut self) -> bool {
+        return self.direction;
+    }
 }
 
 pub struct RiverLane {
-    river_obstacles: Vec<RiverObstacle>
+    pub river_obstacles: Vec<RiverObstacle>
 }
 
 impl RiverLane {
