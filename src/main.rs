@@ -24,7 +24,6 @@ use constants::{
     LANE_MODIFIER,
     NUM_LANE,
     NUM_LOG,
-    LANE_MODIFIER,
     RIVER_LANE_MODIFIER,
     SQUARE_SIZE,
     START,
