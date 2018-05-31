@@ -9,7 +9,7 @@ use constants::{
     CAR_W,
     MAX_NUM_OF_CARS,
     MAX_NUM_OF_TRUCKS,
-    MAX_SPEED_OF_CARS,
+    MAX_SPEED_OF_OBSTACLES, 
     MIN_DELAY,
     MAX_DELAY,
     SQUARE_SIZE,
@@ -168,7 +168,7 @@ impl Lane {
     fn generate_speed() -> f32 {
         let mut rng = thread_rng();
 
-        rng.gen_range(0.5_f32, MAX_SPEED_OF_CARS)
+        rng.gen_range(0.5_f32, MAX_SPEED_OF_OBSTACLES)
     }
 
     fn generate_car_delay(num_of_vehicles: u32) -> f32 {
