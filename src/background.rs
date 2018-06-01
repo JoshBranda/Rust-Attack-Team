@@ -37,7 +37,8 @@ pub struct Cubbie {
 }
 
 pub struct Cubbies {
-    cubbies: Vec<Cubbie>
+    cubbies: Vec<Cubbie>,
+    filled_cubbies: u32
 }
 
 pub struct Menu {
@@ -105,7 +106,8 @@ impl Cubbie {
 impl Cubbies {
     pub fn construct() -> Cubbies {
         Cubbies {
-            cubbies: Cubbies::create_cubbies()
+            cubbies: Cubbies::create_cubbies(),
+            filled_cubbies: CUB_NUM
         }
     }
 
@@ -135,7 +137,15 @@ impl Cubbies {
 
     pub fn set_is_occupied(&mut self, i: usize) {
         self.cubbies[i].is_occupied = true;
+        self.filled_cubbies -= 1;
     }
+
+    pub fn get_filled_cubbies(&mut self) -> u32 {self.filled_cubbies }
+
+//    pub fn reset_cubbies(&mut self) {
+//        self.cubbies = self.create_cubbies();
+//        self.filled_cubbies = CUB_NUM;
+//    }
 }
 
 impl Menu {

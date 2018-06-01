@@ -19,6 +19,8 @@ use background::{Road, River, Cubbies, Menu};
 use characters::Crab;
 
 use constants::{
+    COLLISIONS_ON,
+    WINNING_CUBBIES,
     END,
     GRASS,
     NUM_LANE,
@@ -87,80 +89,81 @@ impl event::EventHandler for MainState {
             self.lane_modifier += 1.0;  
         }
 
-        // Check for collisions
-        // with water
-        if self.player.get_bottom_edge() <= MID_ROW as f32 * SQUARE_SIZE - SQUARE_SIZE{
-            let mut collided = true;
+        if COLLISIONS_ON {
+            // Check for collisions
+            // with water
+            if self.player.get_bottom_edge() <= MID_ROW as f32 * SQUARE_SIZE - SQUARE_SIZE {
+                let mut collided = true;
 
-            'outerLog: for i in 0..self.river_lanes.len() {
-                for j in 0..self.river_lanes[i].river_obstacles.len() {
-                    // Assume the crab is safe
-                    let mut inside = true;
+                'outerLog: for i in 0..self.river_lanes.len() {
+                    for j in 0..self.river_lanes[i].river_obstacles.len() {
+                        // Assume the crab is safe
+                        let mut inside = true;
 
-                    if self.player.get_right_edge() > self.river_lanes[i].river_obstacles[j].get_right_edge() + LOG_EDGE_BUFFER {
-                        inside = false;
+                        if self.player.get_right_edge() > self.river_lanes[i].river_obstacles[j].get_right_edge() + LOG_EDGE_BUFFER {
+                            inside = false;
+                        }
+
+                        if self.player.get_left_edge() < self.river_lanes[i].river_obstacles[j].get_left_edge() - LOG_EDGE_BUFFER {
+                            inside = false;
+                        }
+
+                        if self.player.get_bottom_edge() < self.river_lanes[i].river_obstacles[j].get_bottom_edge() {
+                            inside = false;
+                        }
+
+                        if self.player.get_top_edge() > self.river_lanes[i].river_obstacles[j].get_top_edge() {
+                            inside = false;
+                        }
+
+                        //The crab has passed all of the checks for a particular log, meaning it is inside
+                        if inside == true {
+                            self.player.set_direction(self.river_lanes[i].river_obstacles[j].get_direction());
+                            self.player.set_speed(self.river_lanes[i].river_obstacles[j].get_speed());
+                            collided = false;
+                            break 'outerLog;
+                        }
                     }
+                }
 
-                    if self.player.get_left_edge() < self.river_lanes[i].river_obstacles[j].get_left_edge() - LOG_EDGE_BUFFER {
-                        inside = false;
-                    }
+                if collided {
+                    self.player.lose_life();
+                }
 
-                    if self.player.get_bottom_edge() < self.river_lanes[i].river_obstacles[j].get_bottom_edge() {
-                        inside = false;
-                    }
+                //Update the crab's speed
+                self.player.update();
+            }
+                // or with vehicles else
+            if self.player.get_bottom_edge() > MID_ROW as f32 * SQUARE_SIZE &&
+                self.player.get_bottom_edge() < WIN_H as f32 - SQUARE_SIZE * 2.0 {
+                'outerCar: for i in 0..self.lanes.len() {
+                    for j in 0..self.lanes[i].vehicles.len() {
+                        if self.player.get_left_edge() >= self.lanes[i].vehicles[j].get_right_edge() {
+                            continue;
+                        }
 
-                    if self.player.get_top_edge() > self.river_lanes[i].river_obstacles[j].get_top_edge() {
-                        inside = false;
-                    }
+                        if self.player.get_right_edge() <= self.lanes[i].vehicles[j].get_left_edge() {
+                            continue;
+                        }
 
-                    //The crab has passed all of the checks for a particular log, meaning it is inside
-                    if inside == true {
-                        self.player.set_direction(self.river_lanes[i].river_obstacles[j].get_direction());
-                        self.player.set_speed(self.river_lanes[i].river_obstacles[j].get_speed());
-                        collided = false;
-                        break 'outerLog;
+                        if self.player.get_bottom_edge() <= self.lanes[i].vehicles[j].get_top_edge() {
+                            continue;
+                        }
+
+                        if self.player.get_top_edge() >= self.lanes[i].vehicles[j].get_bottom_edge() {
+                            continue;
+                        }
+
+                        self.player.lose_life();
+                        break 'outerCar;
                     }
                 }
             }
 
-            if collided {
+            // Check for collisions with cubbies
+            if self.player.get_bottom_edge() < END && self.player.get_left_edge() % (SQUARE_SIZE * 4.0) < SQUARE_SIZE * 2.0 {
                 self.player.lose_life();
             }
-
-            //Update the crab's speed
-            self.player.update();
-        }
-            // or with vehicles
-        else if self.player.get_bottom_edge() > MID_ROW as f32 * SQUARE_SIZE &&
-            self.player.get_bottom_edge() < WIN_H as f32 - SQUARE_SIZE * 2.0 {
-
-            'outerCar: for i in 0..self.lanes.len() {
-                for j in 0..self.lanes[i].vehicles.len() {
-                    if self.player.get_left_edge() >= self.lanes[i].vehicles[j].get_right_edge() {
-                        continue;
-                    }
-
-                    if self.player.get_right_edge() <= self.lanes[i].vehicles[j].get_left_edge() {
-                        continue;
-                    }
-
-                    if self.player.get_bottom_edge() <= self.lanes[i].vehicles[j].get_top_edge() {
-                        continue;
-                    }
-
-                    if self.player.get_top_edge() >= self.lanes[i].vehicles[j].get_bottom_edge() {
-                        continue;
-                    }
-
-                    self.player.lose_life();
-                    break 'outerCar;
-                }
-            }
-        }
-
-        // Check for collisions with cubbies
-        if self.player.get_bottom_edge() < END && self.player.get_left_edge() % (SQUARE_SIZE * 4.0) < SQUARE_SIZE * 2.0 {
-            self.player.lose_life();
         }
 
         // Check for occupied cubbie
@@ -198,17 +201,33 @@ impl event::EventHandler for MainState {
         }
 
         //Check for game over
-        if self.player.get_lives() <= 0 {
+        if self.player.get_lives() <= 0 || self.cubbies.get_filled_cubbies() == WINNING_CUBBIES {
+            let victory = self.cubbies.get_filled_cubbies() == WINNING_CUBBIES;
             self.player.set_lives();
+            //self.cubbies.reset_cubbies();
+            self.cubbies = Cubbies::construct();
 
             //Clear screen, optional
             graphics::clear(_ctx);
 
-            //Game over has a scalable center, text should always be in center regardless of dimensions
-            let center:f32 = WIN_W as f32 / 2.0 - *&self.game_over_man.width() as f32 / 2.0;
+            if victory {
+                let font = graphics::Font::new(_ctx, "/game_over.ttf", 48).unwrap();
+                let text = graphics::Text::new(_ctx, "Win!", &font)?;
 
-            let dest_point = graphics::Point2::new(center, WIN_H as f32 / 2.0);
-            graphics::draw(_ctx, &self.game_over_man, dest_point, 0.0)?;
+                let center: f32 = WIN_W as f32 / 2.0 - *&text.width() as f32 / 2.0;
+
+                let dest_point = graphics::Point2::new(center, WIN_H as f32 / 2.0);
+                graphics::draw(_ctx, &text, dest_point, 0.0)?;
+            }
+            else {
+                //Game over has a scalable center, text should always be in center regardless of dimensions
+                let center: f32 = WIN_W as f32 / 2.0 - *&self.game_over_man.width() as f32 / 2.0;
+
+                let dest_point = graphics::Point2::new(center, WIN_H as f32 / 2.0);
+                graphics::draw(_ctx, &self.game_over_man, dest_point, 0.0)?;
+
+            }
+
             graphics::present(_ctx);
             timer::sleep(Duration::from_secs(2));
         }

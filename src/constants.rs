@@ -53,4 +53,6 @@ pub const MAX_NUM_OF_TURTLES: u32 = MAX_NUM_OF_CARS - 1;
 pub const LOG_W: f32 = TRUCK_W;
 pub const TURTLE_W: f32 = CAR_W;
 
-
+//Game state
+pub const COLLISIONS_ON : bool = false;
+pub const WINNING_CUBBIES : u32 = 5;
