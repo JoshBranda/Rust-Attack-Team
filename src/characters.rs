@@ -4,12 +4,17 @@ This work is available under the "MIT License”.
 Please see the file LICENSE in this distribution
 for license terms.
 */
-extern crate ggez;
 
-use constants::{SQUARE_SIZE, LIVES, WIN_H, WIN_W, MID_COL};
-use sprites::{Rectangle, CrabSprite};
-use ggez::{GameResult, Context};
-use ggez::graphics::WHITE;
+use constants::{
+    END,
+    LIVES,
+    SQUARE_SIZE, 
+    WIN_H, 
+    WIN_W
+    };
+
+use ggez::{GameResult, Context};    
+use sprites::{CrabSprite};
 
 pub struct Crab {
     form: CrabSprite,
@@ -41,7 +46,7 @@ impl Crab {
         }
     }
 
-    fn update(&mut self) {
+    pub fn update(&mut self) {
         if self.direction {
             if self.get_right_edge() >= WIN_W as f32 + self.speed {
                 self.lose_life();
@@ -104,10 +109,14 @@ impl Crab {
         }
     }
 
+    pub fn occupied_cubbie_override(&mut self) {
+        self.form.y = END;
+    }
+
     pub fn lose_life(&mut self) {
         self.lives = self.lives - 1;
         self.life_lost = true;
-        self.reset_score();
+        // self.reset_score();
     }
 
     pub fn get_life_lost(&mut self) -> bool {
@@ -142,9 +151,9 @@ impl Crab {
         self.score += to_add;
     }
 
-    pub fn reset_score(&mut self) {
-        self.score = 0;
-    }
+    // pub fn reset_score(&mut self) {
+    //     self.score = 0;
+    // }
 
     pub fn set_speed(&mut self, new_speed: f32) {self.speed = new_speed; }
 

@@ -15,22 +15,22 @@ pub mod sprites;
 pub mod traffic;
 pub mod river;
 
-use background::{Road, River, Menu};
-// use background::Cubbie;
+use background::{Road, River, Cubbies, Menu};
+use characters::Crab;
 
-use constants::{ 
-    WIN_W, 
-    WIN_H, 
-    SQUARE_SIZE, 
-    NUM_LANE, 
+use constants::{
+    END,
+    GRASS,
+    NUM_LANE,
     NUM_LOG,
-    NUM_ROW,
+    MID_ROW,
     LANE_MODIFIER,
     RIVER_LANE_MODIFIER,
+    SQUARE_SIZE,
     START,
-    GRASS};
+    WIN_H,
+    WIN_W };
 
-use characters::Crab;
 use ggez::event::{Keycode, Mod};
 use ggez::{GameResult, Context};
 use ggez::graphics::{self};
@@ -42,7 +42,7 @@ use std::time::Duration;
 struct MainState {
     road: Road,
     river: River,
-    // cubbie: Cubbie,
+    cubbies: Cubbies,
     player: Crab,
     lanes: Vec<traffic::Lane>,
     lane_modifier: f32,
@@ -62,8 +62,8 @@ impl MainState {
         let s = MainState { 
             road: Road::new(WIN_W, WIN_H),
             river: River::new(WIN_W, WIN_H),
-            // cubbie: Cubbie::new(WIN_W, WIN_H),
-            player: Crab::new(WIN_W, START),
+            cubbies: Cubbies::construct(),
+            player: Crab::new(WIN_W, START as u32),
             lanes: lanes,
             lane_modifier: LANE_MODIFIER,
             river_lanes: river_lanes,
@@ -88,26 +88,26 @@ impl event::EventHandler for MainState {
 
         // Check for collisions
         // with water
-        if self.player.get_bottom_edge() >= WIN_H as f32 - (NUM_ROW as f32 - 3.0) * SQUARE_SIZE {
+        if self.player.get_bottom_edge() <= MID_ROW as f32 * SQUARE_SIZE - SQUARE_SIZE{
             let mut collided = true;
 
             'outer: for i in 0..self.river_lanes.len() {
                 for j in 0..self.river_lanes[i].river_obstacles.len() {
                     let mut inside = true;
 
-                    if self.player.get_right_edge() >= self.river_lanes[i].river_obstacles[j].get_right_edge() {
+                    if self.player.get_right_edge() > self.river_lanes[i].river_obstacles[j].get_right_edge() {
                         inside = false;
                     }
 
-                    if self.player.get_left_edge() <= self.river_lanes[i].river_obstacles[j].get_left_edge() {
+                    if self.player.get_left_edge() < self.river_lanes[i].river_obstacles[j].get_left_edge() {
                         inside = false;
                     }
 
-                    if self.player.get_bottom_edge() <= self.river_lanes[i].river_obstacles[j].get_bottom_edge() {
+                    if self.player.get_bottom_edge() < self.river_lanes[i].river_obstacles[j].get_bottom_edge() {
                         inside = false;
                     }
 
-                    if self.player.get_top_edge() >= self.river_lanes[i].river_obstacles[j].get_top_edge() {
+                    if self.player.get_top_edge() > self.river_lanes[i].river_obstacles[j].get_top_edge() {
                         inside = false;
                     }
 
@@ -125,6 +125,9 @@ impl event::EventHandler for MainState {
         }
             // or with vehicles
         else {
+            //Remove the crab's speed if she moves back down from a log
+            self.player.set_speed(0 as f32);
+
             'outer: for i in 0..self.lanes.len() {
                 for j in 0..self.lanes[i].vehicles.len() {
                     if self.player.get_left_edge() >= self.lanes[i].vehicles[j].get_right_edge() {
@@ -146,6 +149,32 @@ impl event::EventHandler for MainState {
                     self.player.lose_life();
                     break 'outer;
                 }
+            }
+        }
+
+        //Update the crab if on a log
+        self.player.update();
+
+        // Check for collisions with cubbies
+        if self.player.get_bottom_edge() < END && self.player.get_left_edge() % (SQUARE_SIZE * 4.0) < SQUARE_SIZE * 2.0 {
+            self.player.lose_life();
+        }
+
+        // Check for occupied cubbie
+        if self.player.get_bottom_edge() < END && self.player.get_left_edge() % (SQUARE_SIZE * 4.0) >= SQUARE_SIZE * 2.0 {
+            let i = (self.player.get_left_edge() / (SQUARE_SIZE * 4.0)) as usize;
+            if self.cubbies.get_is_occupied(i) == false {
+                // Get points for it
+                self.player.add_to_score(500);
+                // Set occupied flag to true
+                self.cubbies.set_is_occupied(i);
+                // Reset board
+                timer::sleep(Duration::from_secs(1));
+                self.player.restart_x();
+                self.player.restart_y();
+            }
+            else {
+                self.player.occupied_cubbie_override();
             }
         }
 
@@ -172,7 +201,7 @@ impl event::EventHandler for MainState {
             //Clear screen, optional
             graphics::clear(_ctx);
 
-            //Gamve over has a scalable center, text should always be in center regardless of dimensions
+            //Game over has a scalable center, text should always be in center regardless of dimensions
             let center:f32 = WIN_W as f32 / 2.0 - *&self.game_over_man.width() as f32 / 2.0;
 
             let dest_point = graphics::Point2::new(center, WIN_H as f32 / 2.0);
@@ -204,7 +233,7 @@ impl event::EventHandler for MainState {
             //Draw background
             self.road.draw(ctx)?;
             self.river.draw(ctx)?;
-            // self.cubbie.draw(ctx)?;
+            self.cubbies.draw(ctx)?;
 
             //Draw our lanes
             for lane in &mut self.lanes {
@@ -256,9 +285,7 @@ impl event::EventHandler for MainState {
                 _ => {}
             }
         }
-
     }
-
 }
 
 pub fn main() {
