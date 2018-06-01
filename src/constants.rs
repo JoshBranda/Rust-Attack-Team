@@ -34,6 +34,7 @@ pub const TURTLE: Color = Color{r: 0.5, g: 0.5, b: 0.5, a: 1.0};
 
 //Crab lives
 pub const LIVES: i32 = 3;
+pub const LOG_EDGE_BUFFER: f32 = 10.0;
 
 //Traffic nums
 pub const LANE_MODIFIER: f32 = WIN_H as f32/ (WIN_H as f32 / 2.0) + 1.0;

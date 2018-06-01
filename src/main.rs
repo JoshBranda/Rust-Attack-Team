@@ -26,6 +26,7 @@ use constants::{
     MID_ROW,
     LANE_MODIFIER,
     RIVER_LANE_MODIFIER,
+    LOG_EDGE_BUFFER,
     SQUARE_SIZE,
     START,
     WIN_H,
@@ -91,15 +92,16 @@ impl event::EventHandler for MainState {
         if self.player.get_bottom_edge() <= MID_ROW as f32 * SQUARE_SIZE - SQUARE_SIZE{
             let mut collided = true;
 
-            'outer: for i in 0..self.river_lanes.len() {
+            'outerLog: for i in 0..self.river_lanes.len() {
                 for j in 0..self.river_lanes[i].river_obstacles.len() {
+                    // Assume the crab is safe
                     let mut inside = true;
 
-                    if self.player.get_right_edge() > self.river_lanes[i].river_obstacles[j].get_right_edge() {
+                    if self.player.get_right_edge() > self.river_lanes[i].river_obstacles[j].get_right_edge() + LOG_EDGE_BUFFER {
                         inside = false;
                     }
 
-                    if self.player.get_left_edge() < self.river_lanes[i].river_obstacles[j].get_left_edge() {
+                    if self.player.get_left_edge() < self.river_lanes[i].river_obstacles[j].get_left_edge() - LOG_EDGE_BUFFER {
                         inside = false;
                     }
 
@@ -111,24 +113,28 @@ impl event::EventHandler for MainState {
                         inside = false;
                     }
 
+                    //The crab has passed all of the checks for a particular log, meaning it is inside
                     if inside == true {
                         self.player.set_direction(self.river_lanes[i].river_obstacles[j].get_direction());
                         self.player.set_speed(self.river_lanes[i].river_obstacles[j].get_speed());
                         collided = false;
-                        break 'outer;
+                        break 'outerLog;
                     }
                 }
             }
+
             if collided {
                 self.player.lose_life();
             }
+
+            //Update the crab's speed
+            self.player.update();
         }
             // or with vehicles
-        else {
-            //Remove the crab's speed if she moves back down from a log
-            self.player.set_speed(0 as f32);
+        else if self.player.get_bottom_edge() > MID_ROW as f32 * SQUARE_SIZE &&
+            self.player.get_bottom_edge() < WIN_H as f32 - SQUARE_SIZE * 2.0 {
 
-            'outer: for i in 0..self.lanes.len() {
+            'outerCar: for i in 0..self.lanes.len() {
                 for j in 0..self.lanes[i].vehicles.len() {
                     if self.player.get_left_edge() >= self.lanes[i].vehicles[j].get_right_edge() {
                         continue;
@@ -147,13 +153,10 @@ impl event::EventHandler for MainState {
                     }
 
                     self.player.lose_life();
-                    break 'outer;
+                    break 'outerCar;
                 }
             }
         }
-
-        //Update the crab if on a log
-        self.player.update();
 
         // Check for collisions with cubbies
         if self.player.get_bottom_edge() < END && self.player.get_left_edge() % (SQUARE_SIZE * 4.0) < SQUARE_SIZE * 2.0 {
