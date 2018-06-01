@@ -142,10 +142,6 @@ impl Cubbies {
 
     pub fn get_filled_cubbies(&mut self) -> u32 {self.filled_cubbies }
 
-//    pub fn reset_cubbies(&mut self) {
-//        self.cubbies = self.create_cubbies();
-//        self.filled_cubbies = CUB_NUM;
-//    }
 }
 
 impl Menu {
