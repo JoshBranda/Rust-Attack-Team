@@ -15,7 +15,7 @@
 
 Our game, titled "Crabber", is a Rust application based on the arcade game Frogger developed by Konami in 1981.  
 
-The object of the game is to safely guide each frog from the bottom of the screen to one of the empty cubbies at the top of the screen. To do so, the player must navigate around the traffic in the road and use objects floating in the river to cross the river without touching the water. If the player fails to do either of these tasks, the frog dies and a life is lost.  Once all 3 lives are lost, the game is over.  Otherwise, if the player can successfully fill each cubby with a frog, the player wins the game.
+The object of the game is to safely guide each frog from the bottom of the screen to one of the empty cubbies at the top of the screen. To do so, the player must navigate around the traffic in the road and use objects floating in the river to cross it without touching the water. If the player fails to do either of these tasks, the frog dies and a life is lost.  Once all 3 lives are lost, the game is over.  Otherwise, if the player can successfully fill each cubby with a frog, the player wins the game.
 
 <br /> <br />
 *No crabs were harmed in the making of this application.*
