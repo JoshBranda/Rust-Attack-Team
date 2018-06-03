@@ -54,5 +54,5 @@ pub const LOG_W: f32 = TRUCK_W;
 pub const TURTLE_W: f32 = CAR_W;
 
 //Game state
-pub const COLLISIONS_ON : bool = false;
-pub const WINNING_CUBBIES : u32 = 5;
+pub const COLLISIONS_ON : bool = true;
+pub const WINNING_CUBBIES : u32 = 0;
