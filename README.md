@@ -10,8 +10,6 @@
     <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/github/license/mashape/apistatus.svg"></a>
   </p>
 </h1>
-<br />
-<br />
 
 ## About
 
@@ -23,10 +21,9 @@ The object of the game is to safely guide each frog from the bottom of the scree
 *No crabs were harmed in the making of this application.*
 <br />
 <br />
-
 ## Getting Started
 
-### Prerequisite
+### Prerequisites
 
 1. Follow <a href="https://www.rust-lang.org/en-US/install.html">these instructions</a> to install the`rustup` required to run a Rust application.
 
@@ -46,26 +43,42 @@ The object of the game is to safely guide each frog from the bottom of the scree
 
 Using a command line tool, navigate to the project directory and execute the command: <br />
 `cargo run`
+<br />
+<br />
 
-## Roadmap
+## V.1.0 Roadmap
 
 First and foremost, we are interested in a functioning equivalent of Frogger.  That means if you don't see the basic functionality you would by playing Frogger (which is available free online), our projects is still missing our primary benchmarks.
 
-A run down of the features you will experience in our completed project:
-* Crab for you to control
-* Lanes, grass, and a river to cross
-* Obstacles, such as vehicles (colored squares) or logs
-* Score tracker (and a way to score points)
-* Life counter which decrements when you die
-* Timer
-* Main menu
-* High score page
-* Goal end spaces for winning
+### New Features:
+* [x] Player controlled Crab
+* [x] UI for gameplay: Lanes, grass, ariver to cross, and goal cubbies
+* [x] Traffic obstacles: cars & trucks (*currently represented as rectangles of varying size*)
+* [x] River transportation: logs & turtles (*currently represented as rectangles of varying size*)
+* [x] Obstacles & transportation offered at various speeds, directions, and distances between eachother
+* [x] Collision consequence between the crab and traffic
+* [x] Collision consequence between the crab and water
+* [x] Success when crab makes it to an unoccupied cubby
+* [x] Failure when crab misses cubby
+* [x] Ability for crab to ride river transportation
+* [x] Life counter which decrements when you die
+* [x] Main menu UI
+* [x] Score tracker (*and a way to score points*)
+* [ ] Timer
+* [ ] High score page
 
-A run down of our stretch goals for future completion:
-* Online play option
-* Multi-player option
+### Stretch goals:
+* [ ] Online play option
+* [ ] Multi-player option
+<br />
+<br />
 
-## ggez
+## Built With
+**ggez**: There are two common game building libraries for Rust: ggez and piston.  We chose ggez.  We relied heavily on the ggez library.  We also looked at several example games available on the ggez github page for ideas on how to structure our code: https://github.com/ggez/ggez
+<br />
+<br />
 
-There are two common game building libraries for Rust: ggez and piston.  We chose ggez.  We relied heavily on the ggez library.  We also looked at several example games available on the ggez github page for ideas on how to structure our code: https://github.com/ggez/ggez
+## Authors
+* **Josh Sander**
+* **Julie Rutherford**
+* **Matt Carnovale**
