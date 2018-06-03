@@ -1,13 +1,22 @@
-# Rust-Attack-Team presents:
-# Crabber (The Rust equivalent of Frogger)
+<h1 align="center">
+  Rust-Attack-Team Presents  <br /> <br />
+  :car: :car: :truck: :car: CRABBER :truck: :car: :car: :truck:<br /> <br />
+  <h3 align="center">
+  A <a href="https://www.rust-lang.org/en-US/">Rust</a> equivalent of Frogger 
+  </h3>
+  <p align="center">
+    <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/github/license/mashape/apistatus.svg"></a>
+  </p>
+</h1>
 
+## About
 
-## Licensing with author info:
-[![License: MIT](https://img.shields.io/github/license/mashape/apistatus.svg)](LICENSE)
+Our game, titled "Crabber", is a Rust application based on the arcade game Frogger developed by Konami in 1981.  
 
-Our game, titled "Crabber", is very similar to Frogger.
+The object of the game is to safely guide each frog from the bottom of the screen to one of the empty cubbies at the top of the screen. To do so, the player must navigate around the traffic in the road and use objects floating in the river to cross the river without touching the water. If the player fails to do either of these tasks, the frog dies and a life is lost.  Once all 3 lives are lost, the game is over.  Otherwise, if the player can successfully fill each cubby with a frog, the player wins the game.
 
-No crabs were harmed in the making of this application.
+<br /> <br />
+*No crabs were harmed in the making of this application.*
 
 ## Installation
 1.  Clone the repository to your local machine.
