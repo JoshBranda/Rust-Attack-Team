@@ -203,7 +203,6 @@ impl event::EventHandler for MainState {
         //Check for game over
         if self.player.get_lives() <= 0 || self.cubbies.get_filled_cubbies() == WINNING_CUBBIES {
             let victory = self.cubbies.get_filled_cubbies() == WINNING_CUBBIES;
-            self.player.set_lives();
             //self.cubbies.reset_cubbies();
             self.cubbies = Cubbies::construct();
 
@@ -220,6 +219,7 @@ impl event::EventHandler for MainState {
                 graphics::draw(_ctx, &text, dest_point, 0.0)?;
             }
             else {
+                self.player.set_lives();
                 //Game over has a scalable center, text should always be in center regardless of dimensions
                 let center: f32 = WIN_W as f32 / 2.0 - *&self.game_over_man.width() as f32 / 2.0;
 
