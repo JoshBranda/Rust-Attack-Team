@@ -24,7 +24,8 @@ pub struct Crab {
     life_lost: bool,
     score: isize,
     speed: f32,
-    direction: bool
+    direction: bool,
+    progress: f32
 }
 
 impl Crab {
@@ -42,7 +43,8 @@ impl Crab {
             life_lost: false,
             score: 0,
             speed: 0 as f32,
-            direction: false
+            direction: false,
+            progress: 0.0
         }
     }
 
@@ -88,6 +90,7 @@ impl Crab {
     pub fn move_up(&mut self) {
         if self.form.y - SQUARE_SIZE + 1.0 > 0.0 {
             self.form.y -= SQUARE_SIZE;
+            self.update_progress();
         }
     }
 
@@ -159,6 +162,12 @@ impl Crab {
 
     pub fn set_direction(&mut self, new_direction: bool) {self.direction = new_direction; }
 
+    pub fn update_progress(&mut self) {
+        if self.progress < self.form.y {
+            self.add_to_score(10);
+            self.progress += SQUARE_SIZE;
+        }
+    }
 }
 
 //Unit tests for Crab functions.  All paths are tested except for draw
