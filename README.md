@@ -1,5 +1,7 @@
+<h3 align="center">  
+  Rust-Attack-Team Presents  <br /> 
+</h3>
 <h1 align="center">
-  Rust-Attack-Team Presents  <br /> <br />
   :car: :car: :truck: :car: CRABBER :truck: :car: :car: :truck:<br /> <br />
   <h3 align="center">
   A <a href="https://www.rust-lang.org/en-US/">Rust</a> equivalent of Frogger 
@@ -8,6 +10,8 @@
     <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/github/license/mashape/apistatus.svg"></a>
   </p>
 </h1>
+<br />
+<br />
 
 ## About
 
@@ -17,26 +21,31 @@ The object of the game is to safely guide each frog from the bottom of the scree
 
 <br /> <br />
 *No crabs were harmed in the making of this application.*
+<br />
+<br />
 
-## Installation
-1.  Clone the repository to your local machine.
-2.  Using terminal, putty, or a linux shell, enter the cloned folder.
-3.  Run "Cargo build" (or install Cargo if you haven't yet)
-```
-cargo build
-```
-4.  If using a Mac, you may need to install sdl2:
-```
-brew install sdl2
-```
-5.  Run "./run.sh" when running for the first time.
-```
-./run.sh
-```
-6.  Run "Cargo run" for any run of the game after that.
-```
-cargo run
-```
+## Getting Started
+
+### Prerequisite
+
+1. Follow <a href="https://www.rust-lang.org/en-US/install.html">these instructions</a> to install the`rustup` required to run a Rust application.
+
+2. Install the `RUST-SDL2` library required to use <a href="http://ggez.rs/">ggez</a>, *a Rust game engine*, by following 
+<a href="https://github.com/Rust-SDL2/rust-sdl2.html">these instructions</a>. 
+
+### Installation  
+1. Clone the repository to your local machine with: <br />
+`git clone https://github.com/JoshSander/Rust-Attack-Team.git`
+
+2. Using a command line tool, navigate to the directory used to clone the project.
+
+3. From the project directory execute the command: <br />
+`./run.sh`
+
+### Usage
+
+Using a command line tool, navigate to the project directory and execute the command: <br />
+`cargo run`
 
 ## Roadmap
 
