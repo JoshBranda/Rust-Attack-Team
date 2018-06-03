@@ -92,7 +92,8 @@ impl event::EventHandler for MainState {
         if COLLISIONS_ON {
             // Check for collisions
             // with water
-            if self.player.get_bottom_edge() <= MID_ROW as f32 * SQUARE_SIZE - SQUARE_SIZE {
+            if self.player.get_bottom_edge() <= MID_ROW as f32 * SQUARE_SIZE - SQUARE_SIZE &&
+                self.player.get_bottom_edge() > END {
                 let mut collided = true;
 
                 'outerLog: for i in 0..self.river_lanes.len() {
