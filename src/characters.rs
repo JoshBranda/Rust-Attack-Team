@@ -42,7 +42,7 @@ impl Crab {
             lives: LIVES,
             life_lost: false,
             score: 0,
-            speed: 0 as f32,
+            speed: 0.0,
             direction: false,
             progress: 0.0
         }
@@ -119,6 +119,7 @@ impl Crab {
     pub fn lose_life(&mut self) {
         self.lives = self.lives - 1;
         self.life_lost = true;
+        self.reset_progress();
         // self.reset_score();
     }
 
@@ -154,19 +155,23 @@ impl Crab {
         self.score += to_add;
     }
 
-    // pub fn reset_score(&mut self) {
-    //     self.score = 0;
-    // }
+    pub fn reset_score(&mut self) {
+        self.score = 0;
+    }
 
-    pub fn set_speed(&mut self, new_speed: f32) {self.speed = new_speed; }
+    pub fn set_speed(&mut self, new_speed: f32) { self.speed = new_speed; }
 
-    pub fn set_direction(&mut self, new_direction: bool) {self.direction = new_direction; }
+    pub fn set_direction(&mut self, new_direction: bool) { self.direction = new_direction; }
 
     pub fn update_progress(&mut self) {
         if self.progress < self.form.y {
             self.add_to_score(10);
             self.progress += SQUARE_SIZE;
         }
+    }
+
+    pub fn reset_progress(&mut self) {
+        self.progress = 0.0;
     }
 }
 

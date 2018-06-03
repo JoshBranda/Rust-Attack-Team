@@ -93,7 +93,7 @@ impl event::EventHandler for MainState {
             // Check for collisions
             // with water
             if self.player.get_bottom_edge() <= MID_ROW as f32 * SQUARE_SIZE - SQUARE_SIZE &&
-                self.player.get_bottom_edge() > END {
+                self.player.get_bottom_edge() >= END {
                 let mut collided = true;
 
                 'outerLog: for i in 0..self.river_lanes.len() {
@@ -221,6 +221,7 @@ impl event::EventHandler for MainState {
             }
             else {
                 self.player.set_lives();
+                self.player.reset_score();
                 //Game over has a scalable center, text should always be in center regardless of dimensions
                 let center: f32 = WIN_W as f32 / 2.0 - *&self.game_over_man.width() as f32 / 2.0;
 
