@@ -75,10 +75,14 @@ First and foremost, we are interested in a functioning equivalent of Frogger.  T
 
 ## Built With
 **ggez**: There are two common game building libraries for Rust: ggez and piston.  We chose ggez.  We relied heavily on the ggez library.  We also looked at several example games available on the ggez github page for ideas on how to structure our code: https://github.com/ggez/ggez
+
+### Crates
+<a href="https://crates.io/crates/ggez">ggez</a> <br />
+<a href="https://crates.io/crates/rand">rand</a>
 <br />
 <br />
 
 ## Authors
-* **Josh Sander**
-* **Julie Rutherford**
-* **Matt Carnovale**
+* <a href="https://github.com/JoshSander">Josh Sander</a>
+* <a href="https://github.com/jarfgit">Julie Rutherford</a>
+* <a href="https://github.com/mattCarnovale">Matt Carnovale</a>
