@@ -28,7 +28,7 @@ The object of the game is to safely guide each frog from the bottom of the scree
 1. Follow <a href="https://www.rust-lang.org/en-US/install.html">these instructions</a> to install the`rustup` required to run a Rust application.
 
 2. Install the `RUST-SDL2` library required to use <a href="http://ggez.rs/">ggez</a>, *a Rust game engine*, by following 
-<a href="https://github.com/Rust-SDL2/rust-sdl2.html">these instructions</a>. 
+<a href="https://github.com/Rust-SDL2/rust-sdl2">these instructions</a>. 
 
 ### Installation  
 1. Clone the repository to your local machine with: <br />
