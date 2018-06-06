@@ -72,7 +72,8 @@ impl Rectangle {
 
         let rectangle = graphics::Rect::new(self.x, self.y, self.w, self.h);
         
-        /// Draws a rectangle. DrawMode specifies whether a shape should be drawn filled or as an outline.
+        /// Draws a rectangle. DrawMode specifies whether
+        /// a shape should be drawn filled or as an outline.
         graphics::rectangle(ctx, DrawMode::Fill, rectangle)?;
 
         Ok(())

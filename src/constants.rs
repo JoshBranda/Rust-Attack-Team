@@ -11,7 +11,8 @@ use ggez::graphics::Color;
 pub const SQUARE_SIZE: f32 = 25.0;
 
 /// Screen dimensions
-/// Best if WIN_W % 100 == 50 and both WIN_W and WIN_H are divisible by SQUARE_SIZE
+/// Best if WIN_W % 100 == 50 and both WIN_W and WIN_H
+/// are divisible by SQUARE_SIZE
 pub const WIN_W: u32 	= 650;
 pub const WIN_H: u32 	= 400;
 

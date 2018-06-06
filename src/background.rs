@@ -39,7 +39,8 @@ pub struct Cubbie {
     is_occupied: bool
 }
 
-/// Represents a vector of cubbies which is scalable depending on the window dimensions
+/// Represents a vector of cubbies which is scalable
+/// depending on the window dimensions
 pub struct Cubbies {
     cubbies: Vec<Cubbie>,
     filled_cubbies: u32
@@ -52,7 +53,8 @@ pub struct Menu {
 /// Implements the road.
 impl Road {
 
-    /// Creates a new road which is scalable depending on the window dimension constants
+    /// Creates a new road which is scalable depending
+    /// on the window dimension constants
     pub fn new(w: u32, h: u32) -> Road {
         Road {
             form: Rectangle::construct(
@@ -75,7 +77,8 @@ impl Road {
 /// Implements the river.
 impl River {
 
-    /// Creates a new river which is scalable depending on the window dimension constants
+    /// Creates a new river which is scalable depending
+    /// on the window dimension constants
     pub fn new(w: u32, h: u32) -> River {
         River {
             form: Rectangle::construct(
@@ -98,7 +101,8 @@ impl River {
 /// Implements the cubbie.
 impl Cubbie {
 
-    /// Creates a new river which is scalable depending on the window dimension constants
+    /// Creates a new river which is scalable depending
+    /// on the window dimension constants
     pub fn new(x: f32) -> Cubbie {
         Cubbie {
             form: Rectangle::construct(
@@ -131,7 +135,8 @@ impl Cubbies {
         }
     }
 
-    /// Creates a vector and populates it with a number of cubbies calculated from window dimensions
+    /// Creates a vector and populates it with a number of
+    /// cubbies calculated from window dimensions
     fn create_cubbies() -> Vec<Cubbie>{
         let mut cubbies = vec![];
         for i in 0..CUB_NUM {
@@ -141,7 +146,8 @@ impl Cubbies {
         cubbies
     }
 
-    /// Draws each cubbie in the vector and manages which ones are occupied with a crab sprite
+    /// Draws each cubbie in the vector and manages which
+    /// ones are occupied with a crab sprite
     pub fn draw(&mut self, ctx: &mut Context) -> GameResult<()> {
         for cubbie in &mut self.cubbies {
             cubbie.draw(ctx)?;
@@ -154,12 +160,14 @@ impl Cubbies {
         Ok(())
     }
 
-    /// Returns the status of whether a cubbie is occupied by the crab sprite
+    /// Returns the status of whether a cubbie is occupied
+    /// by the crab sprite
     pub fn get_is_occupied(&mut self, i: usize) -> bool {
         self.cubbies[i].is_occupied
     }
 
-    /// Sets the status of whether a cubbie is occupied by the crab sprite and number of occupied cubbies
+    /// Sets the status of whether a cubbie is occupied by
+    /// the crab sprite and number of occupied cubbies
     pub fn set_is_occupied(&mut self, i: usize) {
         self.cubbies[i].is_occupied = true;
         self.filled_cubbies -= 1;
