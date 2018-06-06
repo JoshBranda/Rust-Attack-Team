@@ -8,6 +8,8 @@ for license terms.
 use ggez::{GameResult, Context};
 use ggez::graphics::{self, set_color, Color, DrawMode};
 
+
+/// Represents the crab sprite graphic
 pub struct CrabSprite {
     pub x: f32,
     pub y: f32,
@@ -15,7 +17,9 @@ pub struct CrabSprite {
     pub h: f32
 }
 
+/// Implements a new CrabSprite
 impl CrabSprite {
+    /// Constructs a new CrabSprite
     pub fn construct(x: f32, y: f32, w: f32, h: f32) -> CrabSprite {
         CrabSprite {
             x: x,
@@ -25,6 +29,7 @@ impl CrabSprite {
         }
     }
 
+    /// Draws CrabSprite graphic onscreen
     pub fn draw(&mut self, ctx: &mut Context, ) -> GameResult<()> {
         let image_small_crab = graphics::Image::new(ctx, "/tiny_crab.png")?;
         let dest_point = graphics::Point2::new(self.x, self.y);
@@ -34,6 +39,8 @@ impl CrabSprite {
     }
 }
 
+
+/// Represents a Rectangle object
 pub struct Rectangle {
     pub x: f32,
     pub y: f32,
@@ -42,11 +49,10 @@ pub struct Rectangle {
     pub colour: graphics::Color    //ggez Color struct: r: f32  g: f32  b: f32  a: f32
 }
 
+/// Implements a Rectangle object
 impl Rectangle {
-    /* Context: an object provided by ggez that holds global resources (aka state: screen, 
-     * audio hardware, timers, etc.) Typically, if a function is going to interact with 
-     * hardware it will need access to Context
-     */
+
+    /// Constructs a Rectangle object 
     pub fn construct(x: f32, y: f32, w: f32, h: f32, colour: Color) -> Rectangle {
         Rectangle {
             x: x,
@@ -57,21 +63,18 @@ impl Rectangle {
         }
     }
 
-    //Draws the given object to the screen
+    /// Draws the Rectangle object to the screen
     pub fn draw(&mut self, ctx: &mut Context, ) -> GameResult<()> {
 
 
-        //Sets the color for the object
+        /// Sets the color for the object
         set_color(ctx, self.colour)?;
-        /* A simple 2D rectangle: the origin of the rectangle is at the top-left,
-         * with x increasing to the right and y increasing down.
-         */
-        let rectangle = graphics::Rect::new(self.x, self.y, self.w, self.h);
-        //Draws a rectangle. DrawMode specifies whether a shape should be drawn filled or as an outline.
 
+        let rectangle = graphics::Rect::new(self.x, self.y, self.w, self.h);
+        
+        /// Draws a rectangle. DrawMode specifies whether a shape should be drawn filled or as an outline.
         graphics::rectangle(ctx, DrawMode::Fill, rectangle)?;
 
-        //This is the Gameresult type returned if there was not an error
         Ok(())
     }
 }
