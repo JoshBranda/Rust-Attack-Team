@@ -57,13 +57,10 @@ impl Crab {
     /// Checks for conditions that affect the crab's position and status
     /// If crab is moved off-screen by a log crab loses a life
     pub fn update(&mut self) {
-        /// If the crab is being moved in some direction (e.g. on a log)
         if self.direction {
-            /// If crab is moved off-screen by a log crab loses a life
             if self.get_right_edge() >= WIN_W as f32 + self.speed {
                 self.lose_life();
             }
-            /// Else move crab to new position
             else {
                 self.form.x = self.form.x + self.speed;
             }

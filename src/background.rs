@@ -208,7 +208,6 @@ impl Menu {
         let dest_point = graphics::Point2::new(horizontal3, vertical3);
         graphics::draw(ctx, &score_text, dest_point, 0.0)?;
 
-        /// Manage the player's selection and associated graphics
         if selection == 0 {
             let image_small_crab = graphics::Image::new(ctx, "/tiny_crab.png")?;
             let horizontal_small_crab: f32 = horizontal2 - 30.0;

@@ -7,8 +7,6 @@ for license terms.
 
 use ggez::graphics::Color;
 
-//! Constants allow for completely scalable game environment
-
 /// Square pixel dimensions as basis for all graphics
 pub const SQUARE_SIZE: f32 = 25.0;
 
