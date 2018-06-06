@@ -136,6 +136,7 @@ impl Lane {
     /// used to create the vehicles structs.
     pub fn construct(y_modifier: f32) -> Lane {
         let y = WIN_H as f32 - y_modifier * SQUARE_SIZE;
+        let ltr_direction = Lane::generate_direction();
         let vehicle_type = Lane::generate_vehicle_type();
         let num_of_vehicles = Lane::generate_number_of_vehicles(vehicle_type);
         let speed = Lane::generate_speed();
