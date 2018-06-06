@@ -23,28 +23,36 @@ use ggez::{GameResult, Context};
 use ggez::graphics::{self};
 use sprites::Rectangle;
 
+/// Represents the 'road' region of the game environment
 pub struct Road {
     form: Rectangle
 }
 
+/// Represents the 'river' region of the game environment
 pub struct River {
     form: Rectangle
 }
 
+/// Represents the 'cubbie' regions of the game environment
 pub struct Cubbie {
     form: Rectangle,
     is_occupied: bool
 }
 
+/// Represents a vector of cubbies which is scalable depending on the window dimensions
 pub struct Cubbies {
     cubbies: Vec<Cubbie>,
     filled_cubbies: u32
 }
 
+/// Represents the game start menu
 pub struct Menu {
 }
 
+/// Implements the road.
 impl Road {
+
+    /// Creates a new road which is scalable depending on the window dimension constants
     pub fn new(w: u32, h: u32) -> Road {
         Road {
             form: Rectangle::construct(
@@ -57,13 +65,17 @@ impl Road {
         }
     }
 
+    /// Draws the road graphic on screen
     pub fn draw(&mut self, ctx: &mut Context) -> GameResult<()> {
         self.form.draw(ctx)?;
         Ok(())
     }
 }
 
+/// Implements the river.
 impl River {
+
+    /// Creates a new river which is scalable depending on the window dimension constants
     pub fn new(w: u32, h: u32) -> River {
         River {
             form: Rectangle::construct(
@@ -76,13 +88,17 @@ impl River {
         }
     }
 
+    /// Draws the river graphic on screen
     pub fn draw(&mut self, ctx: &mut Context) -> GameResult<()> {
         self.form.draw(ctx)?;
         Ok(())
     }
 }
 
+/// Implements the cubbie.
 impl Cubbie {
+
+    /// Creates a new river which is scalable depending on the window dimension constants
     pub fn new(x: f32) -> Cubbie {
         Cubbie {
             form: Rectangle::construct(
@@ -97,13 +113,17 @@ impl Cubbie {
         }
     }
 
+    /// Draws the cubbie graphic on screen
     pub fn draw(&mut self, ctx: &mut Context) -> GameResult<()> {
         self.form.draw(ctx)?;
         Ok(())
     }
 }
 
+/// Implements a vector of cubbies
 impl Cubbies {
+
+    /// Constructs a a Cubbies object.
     pub fn construct() -> Cubbies {
         Cubbies {
             cubbies: Cubbies::create_cubbies(),
@@ -111,6 +131,7 @@ impl Cubbies {
         }
     }
 
+    /// Creates a vector and populates it with a number of cubbies calculated from window dimensions
     fn create_cubbies() -> Vec<Cubbie>{
         let mut cubbies = vec![];
         for i in 0..CUB_NUM {
@@ -119,6 +140,8 @@ impl Cubbies {
         }
         cubbies
     }
+
+    /// Draws each cubbie in the vector and manages which ones are occupied with a crab sprite
     pub fn draw(&mut self, ctx: &mut Context) -> GameResult<()> {
         for cubbie in &mut self.cubbies {
             cubbie.draw(ctx)?;
@@ -131,22 +154,27 @@ impl Cubbies {
         Ok(())
     }
 
+    /// Returns the status of whether a cubbie is occupied by the crab sprite
     pub fn get_is_occupied(&mut self, i: usize) -> bool {
         self.cubbies[i].is_occupied
     }
 
+    /// Sets the status of whether a cubbie is occupied by the crab sprite and number of occupied cubbies
     pub fn set_is_occupied(&mut self, i: usize) {
         self.cubbies[i].is_occupied = true;
         self.filled_cubbies -= 1;
     }
 
+    /// Returns the number of occupied cubbies
     pub fn get_filled_cubbies(&mut self) -> u32 {self.filled_cubbies }
 
 }
 
+/// Implements the game start menu
 impl Menu {
+    /// Draws the start menu graphics
     pub fn draw(&mut self, ctx: &mut Context, selection: u32) -> GameResult<()> {
-        //Draw Crabber name upper-middle
+        /// Draw Crabber name upper-middle
         let game_name = format! {"CRABBER"};
         let font = graphics::Font::new(ctx, "/game_over.ttf", 56).unwrap();
         let name_text = graphics::Text::new(ctx, &game_name, &font)?;
@@ -155,14 +183,14 @@ impl Menu {
         let dest_point = graphics::Point2::new(horizontal, vertical);
         graphics::draw(ctx, &name_text, dest_point, 0.0)?;
 
-        //Draw the Crab logo
+        /// Draw the crab logo sprite
         let image_big_crab = graphics::Image::new(ctx, "/crab.png")?;
         let horizontal_crab: f32 = WIN_W as f32 / 2.0 - image_big_crab.width() as f32 / 2.0;
         let vertical_crab: f32 = vertical - SQUARE_SIZE * 8.0;
         let dest_point = graphics::Point2::new(horizontal_crab, vertical_crab);
         graphics::draw(ctx, &image_big_crab, dest_point, 0.0)?;
 
-        //Draw Start option
+        /// Draw Start option
         let start = format! {"Start"};
         let font_start = graphics::Font::new(ctx, "/game_over.ttf", 20).unwrap();
         let start_text = graphics::Text::new(ctx, &start, &font_start)?;
@@ -171,7 +199,7 @@ impl Menu {
         let dest_point = graphics::Point2::new(horizontal2, vertical2);
         graphics::draw(ctx, &start_text, dest_point, 0.0)?;
 
-        //Draw Scores option
+        /// Draw Scores option
         let scores = format! {"Scores"};
         let font_score = graphics::Font::new(ctx, "/game_over.ttf", 20).unwrap();
         let score_text = graphics::Text::new(ctx, &scores, &font_score)?;
@@ -180,7 +208,7 @@ impl Menu {
         let dest_point = graphics::Point2::new(horizontal3, vertical3);
         graphics::draw(ctx, &score_text, dest_point, 0.0)?;
 
-        //Figure out where the crab selector goes
+        /// Manage the player's selection and associated graphics
         if selection == 0 {
             let image_small_crab = graphics::Image::new(ctx, "/tiny_crab.png")?;
             let horizontal_small_crab: f32 = horizontal2 - 30.0;
