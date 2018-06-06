@@ -67,13 +67,13 @@ impl Rectangle {
     pub fn draw(&mut self, ctx: &mut Context, ) -> GameResult<()> {
 
 
-        /// Sets the color for the object
+        // Sets the color for the object
         set_color(ctx, self.colour)?;
 
         let rectangle = graphics::Rect::new(self.x, self.y, self.w, self.h);
         
-        /// Draws a rectangle. DrawMode specifies whether
-        /// a shape should be drawn filled or as an outline.
+        // Draws a rectangle. DrawMode specifies whether
+        // a shape should be drawn filled or as an outline.
         graphics::rectangle(ctx, DrawMode::Fill, rectangle)?;
 
         Ok(())

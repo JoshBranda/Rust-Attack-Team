@@ -182,7 +182,7 @@ impl Cubbies {
 impl Menu {
     /// Draws the start menu graphics
     pub fn draw(&mut self, ctx: &mut Context, selection: u32) -> GameResult<()> {
-        /// Draw Crabber name upper-middle
+        // Draw Crabber name upper-middle
         let game_name = format! {"CRABBER"};
         let font = graphics::Font::new(ctx, "/game_over.ttf", 56).unwrap();
         let name_text = graphics::Text::new(ctx, &game_name, &font)?;
@@ -191,14 +191,14 @@ impl Menu {
         let dest_point = graphics::Point2::new(horizontal, vertical);
         graphics::draw(ctx, &name_text, dest_point, 0.0)?;
 
-        /// Draw the crab logo sprite
+        // Draw the crab logo sprite
         let image_big_crab = graphics::Image::new(ctx, "/crab.png")?;
         let horizontal_crab: f32 = WIN_W as f32 / 2.0 - image_big_crab.width() as f32 / 2.0;
         let vertical_crab: f32 = vertical - SQUARE_SIZE * 8.0;
         let dest_point = graphics::Point2::new(horizontal_crab, vertical_crab);
         graphics::draw(ctx, &image_big_crab, dest_point, 0.0)?;
 
-        /// Draw Start option
+        // Draw Start option
         let start = format! {"Start"};
         let font_start = graphics::Font::new(ctx, "/game_over.ttf", 20).unwrap();
         let start_text = graphics::Text::new(ctx, &start, &font_start)?;
@@ -207,7 +207,7 @@ impl Menu {
         let dest_point = graphics::Point2::new(horizontal2, vertical2);
         graphics::draw(ctx, &start_text, dest_point, 0.0)?;
 
-        /// Draw Scores option
+        // Draw Scores option
         let scores = format! {"Scores"};
         let font_score = graphics::Font::new(ctx, "/game_over.ttf", 20).unwrap();
         let score_text = graphics::Text::new(ctx, &scores, &font_score)?;
