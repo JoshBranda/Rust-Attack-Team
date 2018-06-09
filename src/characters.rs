@@ -33,8 +33,9 @@ pub struct Crab {
 /// Implements the crab.
 impl Crab {
 
-    /// Creates a new crab object and positions it on the screen relative to window dimensions
-    /// Sets all status varaibles to default values
+    /// Creates a new crab object and positions it on the
+    /// screen relative to window dimensions
+    /// Sets all variables to default values
     pub fn new(w: u32, h: u32) -> Crab {
         Crab {
             form: CrabSprite::construct(
