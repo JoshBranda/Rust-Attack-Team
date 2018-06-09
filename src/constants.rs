@@ -10,13 +10,7 @@ use ggez::graphics::Color;
 /// Square pixel dimensions as basis for all graphics
 pub const SQUARE_SIZE: f32 = 25.0;
 
-<<<<<<< HEAD
 /// Window width in pixels - best if WIN_W % 100 == 50
-=======
-/// Screen dimensions
-/// Best if WIN_W % 100 == 50 and both WIN_W and WIN_H
-/// are divisible by SQUARE_SIZE
->>>>>>> 46f6047288b543e6a63e6fba2dad7c52530eff36
 pub const WIN_W: u32 	= 650;
 /// Window height - must be divisible by SQUARE_SIZE
 pub const WIN_H: u32 	= 400;
