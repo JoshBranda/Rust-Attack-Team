@@ -5,16 +5,10 @@ Please see the file LICENSE in this distribution
 for license terms.
 */
 
-use constants::{
-    END,
-    LIVES,
-    SQUARE_SIZE, 
-    WIN_H, 
-    WIN_W
-    };
+use constants::{END, LIVES, SQUARE_SIZE, WIN_H, WIN_W};
 
-use ggez::{GameResult, Context};    
-use sprites::{CrabSprite};
+use ggez::{Context, GameResult};
+use sprites::CrabSprite;
 
 /// Represents the crab / player and associated status
 pub struct Crab {
@@ -26,13 +20,11 @@ pub struct Crab {
     score: isize,
     speed: f32,
     direction: bool,
-    progress: f32
+    progress: f32,
 }
-
 
 /// Implements the crab.
 impl Crab {
-
     /// Creates a new crab object and positions it on the
     /// screen relative to window dimensions
     /// Sets all variables to default values
@@ -42,7 +34,7 @@ impl Crab {
                 w as f32 / 2.0,
                 h as f32 - 1.0 * SQUARE_SIZE,
                 SQUARE_SIZE,
-                SQUARE_SIZE
+                SQUARE_SIZE,
             ),
             win_w: WIN_W as f32,
             win_h: WIN_H as f32,
@@ -51,7 +43,7 @@ impl Crab {
             score: 0,
             speed: 0.0,
             direction: false,
-            progress: 0.0
+            progress: 0.0,
         }
     }
 
@@ -61,11 +53,10 @@ impl Crab {
         if self.direction {
             if self.get_right_edge() >= WIN_W as f32 + self.speed {
                 self.lose_life();
-            }
-            else {
+            } else {
                 self.form.x = self.form.x + self.speed;
             }
-        } else{
+        } else {
             if self.form.x <= 0 as f32 {
                 self.lose_life();
             }
@@ -135,7 +126,6 @@ impl Crab {
         self.form.y = END;
     }
 
-
     /// Decrements the crabs remaining lives
     pub fn lose_life(&mut self) {
         self.lives = self.lives - 1;
@@ -153,9 +143,9 @@ impl Crab {
         self.life_lost = false;
     }
 
-    /// Returns the number of remaining lives 
+    /// Returns the number of remaining lives
     pub fn get_lives(&mut self) -> i32 {
-        return self.lives
+        return self.lives;
     }
 
     /// Sets the crabs lives to the default value
@@ -189,10 +179,14 @@ impl Crab {
     }
 
     /// Sets the speed of the crab
-    pub fn set_speed(&mut self, new_speed: f32) { self.speed = new_speed; }
+    pub fn set_speed(&mut self, new_speed: f32) {
+        self.speed = new_speed;
+    }
 
     /// Sets the value of direction - whether the crab is moving on a log
-    pub fn set_direction(&mut self, new_direction: bool) { self.direction = new_direction; }
+    pub fn set_direction(&mut self, new_direction: bool) {
+        self.direction = new_direction;
+    }
 
     /// Updates the furthest point the crab has progressed toward the cubbies
     /// Also updates the score for every step closer it makes it toward the cubbies
@@ -321,7 +315,6 @@ mod tests {
         assert_eq!(crab.get_life_lost(), life_lost_before);
         crab.lose_life();
         assert_eq!(crab.get_life_lost(), life_lost_after);
-
     }
 
     #[test]
