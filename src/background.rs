@@ -5,54 +5,41 @@ Please see the file LICENSE in this distribution
 for license terms.
 */
 
-use constants::{
-    CUB_NUM,
-    END,
-    MID_ROW, 
-    NUM_ROW, 
-    NUM_LANE, 
-    NUM_LOG, 
-    ROAD, 
-    RIVER, 
-    SQUARE_SIZE, 
-    WIN_H, 
-    WIN_W  
-    };
+use constants::{CUB_NUM, END, MID_ROW, NUM_LANE, NUM_LOG, NUM_ROW, RIVER, ROAD, SQUARE_SIZE,
+                WIN_H, WIN_W};
 
-use ggez::{GameResult, Context};
-use ggez::graphics::{self};
+use ggez::graphics;
+use ggez::{Context, GameResult};
 use sprites::Rectangle;
 
 /// Represents the 'road' region of the game environment
 pub struct Road {
-    form: Rectangle
+    form: Rectangle,
 }
 
 /// Represents the 'river' region of the game environment
 pub struct River {
-    form: Rectangle
+    form: Rectangle,
 }
 
 /// Represents the 'cubbie' regions of the game environment
 pub struct Cubbie {
     form: Rectangle,
-    is_occupied: bool
+    is_occupied: bool,
 }
 
 /// Represents a vector of cubbies which is scalable
 /// depending on the window dimensions
 pub struct Cubbies {
     cubbies: Vec<Cubbie>,
-    filled_cubbies: u32
+    filled_cubbies: u32,
 }
 
 /// Represents the game start menu
-pub struct Menu {
-}
+pub struct Menu {}
 
 /// Implements the road.
 impl Road {
-
     /// Creates a new road which is scalable depending
     /// on the window dimension constants
     pub fn new(w: u32, h: u32) -> Road {
@@ -76,7 +63,6 @@ impl Road {
 
 /// Implements the river.
 impl River {
-
     /// Creates a new river which is scalable depending
     /// on the window dimension constants
     pub fn new(w: u32, h: u32) -> River {
@@ -100,7 +86,6 @@ impl River {
 
 /// Implements the cubbie.
 impl Cubbie {
-
     /// Creates a new river which is scalable depending
     /// on the window dimension constants
     pub fn new(x: f32) -> Cubbie {
@@ -112,8 +97,7 @@ impl Cubbie {
                 2.0 * SQUARE_SIZE,
                 RIVER,
             ),
-            is_occupied: false
-
+            is_occupied: false,
         }
     }
 
@@ -126,21 +110,20 @@ impl Cubbie {
 
 /// Implements a vector of cubbies
 impl Cubbies {
-
     /// Constructs a a Cubbies object.
     pub fn construct() -> Cubbies {
         Cubbies {
             cubbies: Cubbies::create_cubbies(),
-            filled_cubbies: CUB_NUM
+            filled_cubbies: CUB_NUM,
         }
     }
 
     /// Creates a vector and populates it with a number of
     /// cubbies calculated from window dimensions
-    fn create_cubbies() -> Vec<Cubbie>{
+    fn create_cubbies() -> Vec<Cubbie> {
         let mut cubbies = vec![];
         for i in 0..CUB_NUM {
-            let x = i as f32 * (4.0 * SQUARE_SIZE) + 2.0 * SQUARE_SIZE; 
+            let x = i as f32 * (4.0 * SQUARE_SIZE) + 2.0 * SQUARE_SIZE;
             cubbies.push(Cubbie::new(x))
         }
         cubbies
@@ -153,7 +136,10 @@ impl Cubbies {
             cubbie.draw(ctx)?;
             if cubbie.is_occupied == true {
                 let image_cubbie_crab = graphics::Image::new(ctx, "/tiny_crab.png")?;
-                let dest_point = graphics::Point2::new(cubbie.form.x + SQUARE_SIZE / 2.0, cubbie.form.y + SQUARE_SIZE / 2.0);
+                let dest_point = graphics::Point2::new(
+                    cubbie.form.x + SQUARE_SIZE / 2.0,
+                    cubbie.form.y + SQUARE_SIZE / 2.0,
+                );
                 graphics::draw(ctx, &image_cubbie_crab, dest_point, 0.0)?;
             }
         }
@@ -174,8 +160,9 @@ impl Cubbies {
     }
 
     /// Returns the number of occupied cubbies
-    pub fn get_filled_cubbies(&mut self) -> u32 {self.filled_cubbies }
-
+    pub fn get_filled_cubbies(&mut self) -> u32 {
+        self.filled_cubbies
+    }
 }
 
 /// Implements the game start menu
